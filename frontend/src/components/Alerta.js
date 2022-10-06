@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 
-function Alerta({ alerta }) {
+const Alerta = ({ alerta }) => {
   return (
     <div
       className={`${
@@ -15,6 +15,6 @@ function Alerta({ alerta }) {
       {alerta.msg}
     </div>
   );
-}
+};
 
 export default Alerta;

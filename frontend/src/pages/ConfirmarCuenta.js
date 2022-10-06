@@ -4,7 +4,7 @@ import Alerta from "../components/Alerta";
 import clientesAxios from "../config/axios";
 import React from "react";
 
-function ConfirmarCuenta() {
+const ConfirmarCuenta = () => {
   const [cuentaConfirmada, setCuentaConfirmada] = useState(false);
   const [cargando, setCargando] = useState(true);
   const [alerta, setAlerta] = useState({});
@@ -53,6 +53,6 @@ function ConfirmarCuenta() {
       </div>
     </>
   );
-}
+};
 
 export default ConfirmarCuenta;

@@ -4,7 +4,7 @@ import Alerta from "../components/Alerta";
 import clientesAxios from "../config/axios";
 import React from "react";
 
-function Registrar() {
+const Registrar = () => {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -133,6 +133,6 @@ function Registrar() {
       </div>
     </>
   );
-}
+};
 
 export default Registrar;

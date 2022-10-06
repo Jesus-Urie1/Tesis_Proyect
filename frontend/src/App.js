@@ -7,7 +7,7 @@ import ConfirmarCuenta from "./pages/ConfirmarCuenta";
 import NuevoPassword from "./pages/NuevoPassword";
 import React from "react";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -21,6 +21,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
