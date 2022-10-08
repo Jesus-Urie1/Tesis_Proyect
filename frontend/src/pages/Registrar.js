@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Alerta from "../components/Alerta";
 import clientesAxios from "../config/axios";
 import React from "react";
+import LoginInput from "../components/LoginInput";
 
 const Registrar = () => {
   const [nombre, setNombre] = useState("");
@@ -61,53 +62,41 @@ const Registrar = () => {
         </h1>
       </div>
 
-      <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
+      <div className="shadow-lg px-5 py-5 rounded-xl bg-white">
         {msg && <Alerta alerta={alerta} />}
         <form onSubmit={handleSubmit}>
           <div className="my-5">
-            <label className="uppercase text-gray-600 block text-xl font-bold">
-              Nombre
-            </label>
-            <input
-              type="text"
-              placeholder="Tu nombre"
-              className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
+            <LoginInput
+              title={"Nombre"}
+              type={"text"}
+              placeholder={"Tu nombre"}
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
             />
           </div>
           <div className="my-5">
-            <label className="uppercase text-gray-600 block text-xl font-bold">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="Email de Registro"
-              className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
+            <LoginInput
+              title={"Email"}
+              type={"email"}
+              placeholder={"Email@ejemplo.com"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="my-5">
-            <label className="uppercase text-gray-600 block text-xl font-bold">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Tu password"
-              className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
+            <LoginInput
+              title={"Password"}
+              type={"password"}
+              placeholder={"Tu contraseña"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="my-5">
-            <label className="uppercase text-gray-600 block text-xl font-bold">
-              Repetir Password
-            </label>
-            <input
-              type="password"
-              placeholder="Repite password"
-              className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
+            <LoginInput
+              title={"Repetir contraseña"}
+              type={"password"}
+              placeholder={"Repetir contraseña"}
               value={repetirPassword}
               onChange={(e) => setRepetirPassword(e.target.value)}
             />
