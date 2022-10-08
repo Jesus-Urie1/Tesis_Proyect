@@ -4,29 +4,34 @@ import Alerta from "../components/Alerta";
 import clientesAxios from "../config/axios";
 import React from "react";
 import LoginInput from "../components/LoginInput";
+import useLoginController from "../hooks/useLoginController";
 
 const Registrar = () => {
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repetirPassword, setRepetirPassword] = useState("");
+  const [
+    nombre,
+    email,
+    passworddd,
+    repetirPassword,
+    validPassword,
+    passwordRepeated,
+    registroFilled,
+  ] = useLoginController();
 
   const [alerta, setAlerta] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ([nombre, email, password, repetirPassword].includes("")) {
+    if (!registroFilled) {
       setAlerta({ msg: "Hay campos vacios", error: true });
       return;
     }
 
-    if (password !== repetirPassword) {
+    if (!passwordRepeated) {
       setAlerta({ msg: "Los passwords no son iguales", error: true });
       return;
     }
-
-    if (password.length < 6) {
+    if (!validPassword) {
       setAlerta({
         msg: "El password es muy corto, agrega minimo 6 caracteres",
         error: true,
@@ -70,8 +75,7 @@ const Registrar = () => {
               title={"Nombre"}
               type={"text"}
               placeholder={"Tu nombre"}
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              {...nombre}
             />
           </div>
           <div className="my-5">
@@ -79,8 +83,7 @@ const Registrar = () => {
               title={"Email"}
               type={"email"}
               placeholder={"Email@ejemplo.com"}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...email}
             />
           </div>
           <div className="my-5">
@@ -88,8 +91,7 @@ const Registrar = () => {
               title={"Password"}
               type={"password"}
               placeholder={"Tu contraseña"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...passworddd}
             />
           </div>
           <div className="my-5">
@@ -97,8 +99,7 @@ const Registrar = () => {
               title={"Repetir contraseña"}
               type={"password"}
               placeholder={"Repetir contraseña"}
-              value={repetirPassword}
-              onChange={(e) => setRepetirPassword(e.target.value)}
+              {...repetirPassword}
             />
           </div>
           <input
