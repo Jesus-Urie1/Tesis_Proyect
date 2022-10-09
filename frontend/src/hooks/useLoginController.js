@@ -1,5 +1,4 @@
 import { useInput } from "./useInput";
-import { useEffect, useState } from "react";
 
 const isValidPassword = (password) => {
   return password.length > 5 ? true : false;
@@ -30,8 +29,6 @@ const useLoginController = () => {
     nombre.value,
     email.value
   );
-
-  console.log(passwordRepeated);
 
   return [
     nombre,
