@@ -63,11 +63,11 @@ const Registrar = () => {
       <div>
         <h1 className="text-indigo-600 font-black text-6xl">
           Crea tu Cuenta y Administra tus
-          <span className="text-black"> Pacientes</span>
+          <span className="text-black"> Alumnos</span>
         </h1>
       </div>
 
-      <div className="shadow-lg px-5 py-5 rounded-xl bg-white">
+      <div className="shadow-lg px-5 pt-5 rounded-xl bg-white ">
         {msg && <Alerta alerta={alerta} />}
         <form onSubmit={handleSubmit}>
           <div className="my-5">
