@@ -10,7 +10,7 @@ const Registrar = () => {
   const [
     nombre,
     email,
-    passworddd,
+    password,
     repetirPassword,
     validPassword,
     passwordRepeated,
@@ -91,7 +91,7 @@ const Registrar = () => {
               title={"Password"}
               type={"password"}
               placeholder={"Tu contraseña"}
-              {...passworddd}
+              {...password}
             />
           </div>
           <div className="my-5">

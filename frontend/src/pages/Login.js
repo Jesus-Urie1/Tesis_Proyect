@@ -1,7 +1,47 @@
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
+import useLoginController from "../hooks/useLoginController";
+import LoginInput from "../components/LoginInput";
+import Alerta from "../components/Alerta";
 
 const Login = () => {
+  const [
+    nombre,
+    email,
+    password,
+    repetirPassword,
+    validPassword,
+    passwordRepeated,
+    registroFilled,
+    loginFilled,
+  ] = useLoginController();
+
+  const [alerta, setAlerta] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!loginFilled) {
+      setAlerta({ msg: "Hay campos vacios", error: true });
+      return;
+    }
+    setAlerta({});
+    //Conectar con el usuario en la API
+    /*try {
+      await clientesAxios.post("/veterinarios", { nombre, email, password });
+      setAlerta({
+        msg: "Creado Correctamente, revisa tu email",
+        error: false,
+      });
+    } catch (error) {
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
+    }*/
+  };
+
+  const { msg } = alerta;
+
   return (
     <>
       <div>
@@ -12,25 +52,22 @@ const Login = () => {
       </div>
 
       <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
-        <form>
+        {msg && <Alerta alerta={alerta} />}
+        <form onSubmit={handleSubmit}>
           <div className="my-5">
-            <label className="uppercase text-gray-600 block text-xl font-bold">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="Email de Registro"
-              className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
+            <LoginInput
+              title={"Email"}
+              type={"email"}
+              placeholder={"Email@ejemplo.com"}
+              {...email}
             />
           </div>
           <div className="my-5">
-            <label className="uppercase text-gray-600 block text-xl font-bold">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Email de Registro"
-              className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
+            <LoginInput
+              title={"Password"}
+              type={"password"}
+              placeholder={"Tu contraseña"}
+              {...password}
             />
           </div>
 

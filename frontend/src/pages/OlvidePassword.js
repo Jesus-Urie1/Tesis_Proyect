@@ -1,7 +1,31 @@
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
+import LoginInput from "../components/LoginInput";
+import Alerta from "../components/Alerta";
+import useLoginController from "../hooks/useLoginController";
 
 const OlvidePassword = () => {
+  const [
+    nombre,
+    email,
+    password,
+    repetirPassword,
+    validPassword,
+    passwordRepeated,
+    registroFilled,
+    loginFilled,
+  ] = useLoginController();
+  const [alerta, setAlerta] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (email.value == "") {
+      setAlerta({ msg: "Ingresa tu email", error: true });
+      return;
+    }
+    setAlerta({});
+  };
+  const { msg } = alerta;
   return (
     <>
       <div>
@@ -11,15 +35,14 @@ const OlvidePassword = () => {
         </h1>
       </div>
       <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
-        <form>
+        {msg && <Alerta alerta={alerta} />}
+        <form onSubmit={handleSubmit}>
           <div className="my-5">
-            <label className="uppercase text-gray-600 block text-xl font-bold">
-              Email
-            </label>
-            <input
-              type="text"
-              placeholder="Email de registro"
-              className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
+            <LoginInput
+              title={"Email"}
+              type={"email"}
+              placeholder={"Email@ejemplo.com"}
+              {...email}
             />
           </div>
           <input

@@ -11,33 +11,41 @@ const isPasswordRepeated = (password, repetirPassword) => {
 const isRegistroFilled = (name, email, password, repetirPassword) => {
   return [name, email, password, repetirPassword].includes("") ? false : true;
 };
+
+const isLoginFilled = (email, password) => {
+  return [email, password].includes("") ? false : true;
+};
+
 const useLoginController = () => {
   const [nombre] = useInput("");
   const [email] = useInput("");
-  const [passworddd] = useInput("");
+  const [password] = useInput("");
   const [repetirPassword] = useInput("");
 
-  const validPassword = isValidPassword(passworddd.value);
+  const validPassword = isValidPassword(password.value);
   const passwordRepeated = isPasswordRepeated(
-    passworddd.value,
+    password.value,
     repetirPassword.value
   );
 
   const registroFilled = isRegistroFilled(
-    passworddd.value,
+    password.value,
     repetirPassword.value,
     nombre.value,
     email.value
   );
 
+  const loginFilled = isLoginFilled(email.value, password.value);
+
   return [
     nombre,
     email,
-    passworddd,
+    password,
     repetirPassword,
     validPassword,
     passwordRepeated,
     registroFilled,
+    loginFilled,
   ];
 };
 
