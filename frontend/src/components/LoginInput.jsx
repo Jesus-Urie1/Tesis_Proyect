@@ -1,5 +1,3 @@
-import React from "react";
-
 const LoginInput = ({ title, type, placeholder, onChange, value }) => {
   return (
     <>

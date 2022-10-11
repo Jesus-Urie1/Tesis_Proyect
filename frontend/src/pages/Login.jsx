@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import { useState } from "react";
 import useLoginController from "../hooks/useLoginController";
 import LoginInput from "../components/LoginInput";
 import Alerta from "../components/Alerta";
