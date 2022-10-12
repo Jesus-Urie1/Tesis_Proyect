@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useLoginController from "../hooks/useLoginController";
 import LoginInput from "../components/LoginInput";
@@ -16,6 +16,8 @@ const Login = () => {
     loginFilled,
   ] = useLoginController();
 
+  const navigate = useNavigate();
+
   const [alerta, setAlerta] = useState({});
 
   const handleSubmit = async (e) => {
@@ -26,18 +28,24 @@ const Login = () => {
     }
     setAlerta({});
     //Conectar con el usuario en la API
-    /*try {
-      await clientesAxios.post("/veterinarios", { nombre, email, password });
+    try {
+      const { data } = await clientesAxios.post("/usuario/login", {
+        email,
+        password,
+      });
       setAlerta({
         msg: "Creado Correctamente, revisa tu email",
         error: false,
       });
+      localStorage.setItem("token", data.token);
+      setAuth(data);
+      navigate("/admin");
     } catch (error) {
       setAlerta({
         msg: error.response.data.msg,
         error: true,
       });
-    }*/
+    }
   };
 
   const { msg } = alerta;

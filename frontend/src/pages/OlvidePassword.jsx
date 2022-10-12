@@ -23,7 +23,20 @@ const OlvidePassword = () => {
       setAlerta({ msg: "Ingresa tu email", error: true });
       return;
     }
-    setAlerta({});
+    try {
+      const { data } = await clientesAxios.post("/usuario/olvide-password", {
+        email,
+      });
+      setAlerta({
+        msg: data.msg,
+      });
+    } catch (error) {
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
+      console.log(error);
+    }
   };
   const { msg } = alerta;
   return (
