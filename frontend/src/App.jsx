@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthLayout from "./layout/AuthLayout";
-import Login from "./pages/Login";
-import Registrar from "./pages/Registrar";
-import OlvidePassword from "./pages/OlvidePassword";
-import ConfirmarCuenta from "./pages/ConfirmarCuenta";
-import NuevoPassword from "./pages/NuevoPassword";
+import HomeAdminLayout from "./layout/HomeAdminLayout";
+import Login from "./paginas/Login";
+import Registrar from "./paginas/Registrar";
+import OlvidePassword from "./paginas/OlvidePassword";
+import ConfirmarCuenta from "./paginas/ConfirmarCuenta";
+import NuevoPassword from "./paginas/NuevoPassword";
+import NextPage from "./pages/NextPage";
+
 import { AuthProvider } from "./context/AuthProvider";
 
 const App = () => {
@@ -18,6 +21,10 @@ const App = () => {
             <Route path="olvide-password" element={<OlvidePassword />} />
             <Route path="olvide-password/:token" element={<NuevoPassword />} />
             <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
+          </Route>
+
+          <Route path="/admin" element={<HomeAdminLayout />}>
+            <Route index element={<NextPage />} />
           </Route>
         </Routes>
       </AuthProvider>
