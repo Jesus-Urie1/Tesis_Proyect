@@ -5,6 +5,7 @@ import Registrar from "./pages/Registrar";
 import OlvidePassword from "./pages/OlvidePassword";
 import ConfirmarCuenta from "./pages/ConfirmarCuenta";
 import NuevoPassword from "./pages/NuevoPassword";
+import HomeProfe from "./pages/HomeProfe";
 import { AuthProvider } from "./context/AuthProvider";
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
             <Route path="olvide-password/:token" element={<NuevoPassword />} />
             <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
           </Route>
+          <Route path="homeProfe" element={<HomeProfe/>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
