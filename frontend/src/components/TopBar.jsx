@@ -1,6 +1,8 @@
-import React from "react";
+import useAuth from "../hooks/useAuth";
 
 const TopBar = () => {
+  const { cerrarSesion } = useAuth();
+
   return (
     <nav className="flex items-center justify-between flex-wrap bg-indigo-700 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -49,6 +51,13 @@ const TopBar = () => {
           >
             Informes
           </a>
+          <button
+            type="button"
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white"
+            onClick={cerrarSesion}
+          >
+            Cerrar Sesión
+          </button>
         </div>
       </div>
     </nav>

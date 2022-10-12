@@ -3,8 +3,11 @@ import { useState } from "react";
 import useLoginController from "../hooks/useLoginController";
 import LoginInput from "../components/LoginInput";
 import Alerta from "../components/Alerta";
-
+import clientesAxios from "../config/axios";
+import useAuth from "../hooks/useAuth";
 const Login = () => {
+  const { setAuth } = useAuth();
+
   const [
     nombre,
     email,
@@ -28,23 +31,17 @@ const Login = () => {
     }
     setAlerta({});
     //Conectar con el usuario en la API
+
     try {
       const { data } = await clientesAxios.post("/usuario/login", {
-        email,
-        password,
-      });
-      setAlerta({
-        msg: "Creado Correctamente, revisa tu email",
-        error: false,
+        email: email.value,
+        password: password.value,
       });
       localStorage.setItem("token", data.token);
       setAuth(data);
       navigate("/admin");
     } catch (error) {
-      setAlerta({
-        msg: error.response.data.msg,
-        error: true,
-      });
+      console.log(error);
     }
   };
 

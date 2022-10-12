@@ -39,19 +39,20 @@ const Registrar = () => {
     }
 
     setAlerta({});
-
+    console.log(nombre.value);
     //Crear el usuario en la API
     try {
-      await clientesAxios.post("/usuario", { email, password });
+      await clientesAxios.post("/usuario", {
+        nombre: nombre.value,
+        email: email.value,
+        password: password.value,
+      });
       setAlerta({
         msg: "Creado Correctamente, revisa tu email",
         error: false,
       });
     } catch (error) {
-      setAlerta({
-        msg: error.response.data.msg,
-        error: true,
-      });
+      console.log(error);
     }
   };
 
