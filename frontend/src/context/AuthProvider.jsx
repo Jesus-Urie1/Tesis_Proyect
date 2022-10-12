@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
         const { data } = await clientesAxios("/usuario/perfil", config);
         setAuth(data);
       } catch (error) {
-        console.log(errror.response.data.msg);
+        console.log(error.response.data.msg);
         setAuth({});
       }
       setCargando(false);
