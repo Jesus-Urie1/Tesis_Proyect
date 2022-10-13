@@ -3,6 +3,7 @@ import { useState } from "react";
 import LoginInput from "../components/LoginInput";
 import Alerta from "../components/Alerta";
 import useLoginController from "../hooks/useLoginController";
+import clientesAxios from "../config/axios";
 
 const OlvidePassword = () => {
   const [
@@ -25,8 +26,9 @@ const OlvidePassword = () => {
     }
     try {
       const { data } = await clientesAxios.post("/usuario/olvide-password", {
-        email,
+        email: email.value,
       });
+
       setAlerta({
         msg: data.msg,
       });
@@ -35,7 +37,6 @@ const OlvidePassword = () => {
         msg: error.response.data.msg,
         error: true,
       });
-      console.log(error);
     }
   };
   const { msg } = alerta;
