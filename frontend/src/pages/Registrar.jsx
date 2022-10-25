@@ -39,7 +39,6 @@ const Registrar = () => {
     }
 
     setAlerta({});
-    console.log(nombre.value);
     //Crear el usuario en la API
     try {
       await clientesAxios.post("/usuario", {
