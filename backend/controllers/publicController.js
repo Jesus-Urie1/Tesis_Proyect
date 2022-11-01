@@ -109,7 +109,7 @@ const authenticar = async (req, res) => {
   const maestro = await Maestro.findOne({ email });
 
   if (!estudiante && !maestro) {
-    const error = new Error("El usuario no existe");
+    const error = new Error("El correo no existe");
     return res.status(404).json({ msg: error.message });
   }
 
@@ -134,7 +134,7 @@ const authenticar = async (req, res) => {
         token: generarJWT(usuario.id),
       });
     } else {
-      const error = new Error("Password incorrecto");
+      const error = new Error("Correo o contraseña incorrectos");
       return res.status(403).json({ msg: error.message });
     }
   };
@@ -217,7 +217,8 @@ const nuevoPassword = async (req, res) => {
 
   const estudiante = await Estudiante.findOne({ token });
   const maestro = await Maestro.findOne({ token });
-  if (!estudiante || !maestro) {
+
+  if (!estudiante && !maestro) {
     const error = new Error("Token no valido");
     return res.status(400).json({ msg: error.message });
   }
