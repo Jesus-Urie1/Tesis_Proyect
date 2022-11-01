@@ -14,7 +14,7 @@ const ConfirmarCuenta = () => {
   useEffect(() => {
     const confirmarCuenta = async () => {
       try {
-        const url = `/usuario/confirmar/${id}`;
+        const url = `/confirmar/${id}`;
         const { data } = await clientesAxios(url);
         setCuentaConfirmada(true);
         setAlerta({
@@ -35,10 +35,7 @@ const ConfirmarCuenta = () => {
   return (
     <>
       <div>
-        <h1 className="text-indigo-600 font-black text-6xl">
-          Confirma tu Cuenta y Comienza a Administra tus
-          <span className="text-black"> Pacientes</span>
-        </h1>
+        <img src="/confirmado.svg" />
       </div>
 
       <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">

@@ -25,7 +25,7 @@ const OlvidePassword = () => {
       return;
     }
     try {
-      const { data } = await clientesAxios.post("/usuario/olvide-password", {
+      const { data } = await clientesAxios.post("/olvide-password", {
         email: email.value,
       });
 
@@ -43,10 +43,7 @@ const OlvidePassword = () => {
   return (
     <>
       <div>
-        <h1 className="text-indigo-600 font-black text-6xl">
-          Recupera tu Acceso y no pierdas tus
-          <span className="text-black"> Pacientes</span>
-        </h1>
+        <img src="olvidePass.svg" />
       </div>
       <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
         {msg && <Alerta alerta={alerta} />}
