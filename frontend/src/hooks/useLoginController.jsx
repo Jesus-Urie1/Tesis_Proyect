@@ -12,12 +12,9 @@ const isRegistroFilled = (name, email, password, repetirPassword) => {
   return [name, email, password, repetirPassword].includes("") ? false : true;
 };
 
-const isLoginFilled = (email, password) => {
-  return [email, password].includes("") ? false : true;
-};
-
 const useLoginController = () => {
   const [nombre] = useInput("");
+  const [apellidos] = useInput("");
   const [email] = useInput("");
   const [password] = useInput("");
   const [repetirPassword] = useInput("");
@@ -35,17 +32,15 @@ const useLoginController = () => {
     email.value
   );
 
-  const loginFilled = isLoginFilled(email.value, password.value);
-
   return [
     nombre,
+    apellidos,
     email,
     password,
     repetirPassword,
     validPassword,
     passwordRepeated,
     registroFilled,
-    loginFilled,
   ];
 };
 
