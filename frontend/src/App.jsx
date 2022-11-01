@@ -9,6 +9,8 @@ import ConfirmarCuenta from "./pages/ConfirmarCuenta";
 import NuevoPassword from "./pages/NuevoPassword";
 import NextPage from "./pages/NextPage";
 import HomeProfe from "./pages/HomeProfe";
+import Home from "./pages/Home";
+import HomeEstudiante from "./pages/HomeEstudiante";
 
 import { AuthProvider } from "./context/AuthProvider";
 
@@ -25,14 +27,11 @@ const App = () => {
             <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
           </Route>
 
-
           <Route path="/admin" element={<HomeAdminLayout />}>
-   
-            <Route index element={<HomeProfe/>} />
+            <Route index element={<Home />} />
+            <Route path="profesor" element={<HomeProfe />} />
+            <Route path="estudiante" element={<HomeEstudiante />} />
           </Route>
-
-          
-
         </Routes>
       </AuthProvider>
     </BrowserRouter>
