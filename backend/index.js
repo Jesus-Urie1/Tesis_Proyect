@@ -1,7 +1,7 @@
 import express from "express";
 import conectarDB from "./config/db.js";
 import dotenv from "dotenv";
-import usuarioRoutes from "./routes/usuarioRoutes.js";
+import publicRoutes from "./routes/publicRoutes.js";
 import cors from "cors";
 
 //Inicializamos express
@@ -31,7 +31,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/api/usuario", usuarioRoutes);
+app.use("/api/", publicRoutes);
 
 const PORT = process.env.PORT || 4000;
 
