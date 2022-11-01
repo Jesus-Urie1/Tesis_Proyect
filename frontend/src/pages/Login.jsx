@@ -16,7 +16,6 @@ const Login = () => {
     validPassword,
     passwordRepeated,
     registroFilled,
-    loginFilled,
   ] = useLoginController();
 
   const navigate = useNavigate();
@@ -25,15 +24,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!loginFilled) {
-      setAlerta({ msg: "Hay campos vacios", error: true });
+
+    if ([email.value, password.value].includes("")) {
+      setAlerta({ msg: "Todos los campos son obligatorios", error: true });
       return;
     }
     setAlerta({});
     //Conectar con el usuario en la API
 
     try {
-      const { data } = await clientesAxios.post("/usuario/login", {
+      const { data } = await clientesAxios.post("/login", {
         email: email.value,
         password: password.value,
       });
@@ -53,10 +53,7 @@ const Login = () => {
   return (
     <>
       <div>
-        <h1 className="text-indigo-600 font-black text-6xl">
-          Inicia Sesión y Administra tus
-          <span className="text-black"> Pacientes</span>
-        </h1>
+        <img src="login.svg" />
       </div>
 
       <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
