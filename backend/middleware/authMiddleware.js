@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import Usuario from "../models/Usuario.js";
+import Estudiante from "../models/Estudiante.js";
+import Maestro from "../models/Maestro.js";
 
 const checkAuth = async (req, res, next) => {
   let token;
@@ -13,9 +14,15 @@ const checkAuth = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       //Guardando informacion de la BD
-      req.usuario = await Usuario.findById(decoded.id).select(
+      req.usuario = await Maestro.findById(decoded.id).select(
         "-password -token -confirmado"
       );
+
+      if (!req.usuario) {
+        req.usuario = await Estudiante.findById(decoded.id).select(
+          "-password -token -confirmado"
+        );
+      }
 
       return next();
     } catch (error) {

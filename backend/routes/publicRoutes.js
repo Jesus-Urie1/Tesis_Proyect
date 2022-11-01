@@ -7,7 +7,7 @@ import {
   olvidePassword,
   comprobarToken,
   nuevoPassword,
-} from "../controllers/usuarioController.js";
+} from "../controllers/publicController.js";
 import checkAuth from "../middleware/authMiddleware.js";
 
 const router = express.Router();
