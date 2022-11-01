@@ -8,6 +8,7 @@ import useLoginController from "../hooks/useLoginController";
 const Registrar = () => {
   const [
     nombre,
+    apellidos,
     email,
     password,
     repetirPassword,
@@ -17,6 +18,7 @@ const Registrar = () => {
   ] = useLoginController();
 
   const [alerta, setAlerta] = useState({});
+  const [tipoCuenta, setTipoCuenta] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,13 +39,14 @@ const Registrar = () => {
       });
       return;
     }
-
     setAlerta({});
     //Crear el usuario en la API
     try {
-      await clientesAxios.post("/usuario", {
+      await clientesAxios.post("/", {
         nombre: nombre.value,
+        apellidos: apellidos.value,
         email: email.value,
+        tipoCuenta: tipoCuenta,
         password: password.value,
       });
       setAlerta({
@@ -63,10 +66,7 @@ const Registrar = () => {
   return (
     <>
       <div>
-        <h1 className="text-indigo-600 font-black text-6xl">
-          Crea tu Cuenta y Administra tus
-          <span className="text-black"> Alumnos</span>
-        </h1>
+        <img src="registro.svg" />
       </div>
 
       <div className="shadow-lg px-5 pt-5 rounded-xl bg-white ">
@@ -74,10 +74,18 @@ const Registrar = () => {
         <form onSubmit={handleSubmit}>
           <div className="my-5">
             <LoginInput
-              title={"Nombre"}
+              title={"Nombre(s)"}
               type={"text"}
-              placeholder={"Tu nombre"}
+              placeholder={"Nombre(s)"}
               {...nombre}
+            />
+          </div>
+          <div className="my-5">
+            <LoginInput
+              title={"Apellidos"}
+              type={"text"}
+              placeholder={"Apellidos"}
+              {...apellidos}
             />
           </div>
           <div className="my-5">
@@ -87,6 +95,56 @@ const Registrar = () => {
               placeholder={"Email@ejemplo.com"}
               {...email}
             />
+          </div>
+
+          <div className="my-5">
+            <label className="uppercase text-gray-600 block text-xl font-bold">
+              Tipo de Cuenta
+            </label>
+            <div className="flex p-3">
+              <div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input appearance-none rounded-full h-4 w-4 border 
+                    bg-white checked:bg-buttonC border-gray-600 focus:outline-none 
+                    transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain 
+                    float-left mr-2 cursor-pointer"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="radio1"
+                    value="estudiante"
+                    checked={tipoCuenta == "estudiante" ? true : false}
+                    onChange={(e) => setTipoCuenta(e.target.value)}
+                  />
+                  <label
+                    className="form-check-label inline-block text-gray-600 font-bold"
+                    htmlFor="radio1"
+                  >
+                    Estudiante
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input appearance-none rounded-full h-4 w-4 border 
+                    bg-white checked:bg-buttonC border-gray-600 focus:outline-none 
+                    transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain 
+                    float-left mr-2 cursor-pointer"
+                    type="radio"
+                    value="maestro"
+                    name="flexRadioDefault"
+                    id="radio2"
+                    checked={tipoCuenta == "maestro" ? true : false}
+                    onChange={(e) => setTipoCuenta(e.target.value)}
+                  />
+                  <label
+                    className="form-check-label inline-block text-gray-600 font-bold"
+                    htmlFor="radio2"
+                  >
+                    Maestro
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="my-5">
             <LoginInput
@@ -107,7 +165,7 @@ const Registrar = () => {
           <input
             type="submit"
             value="Registrate"
-            className="bg-indigo-700 w-full py-3 px-10 rounded-xl text-white uppercase 
+            className="bg-buttonC w-full py-3 px-10 rounded-xl text-white uppercase 
                     font-bold mt-5 hover:cursor-pointer hover:bg-indigo- md:w-auto "
           />
         </form>
