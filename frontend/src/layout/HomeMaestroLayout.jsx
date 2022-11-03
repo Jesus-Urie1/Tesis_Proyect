@@ -1,0 +1,21 @@
+import { Outlet, Navigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+
+const HomeMaestroLayout = () => {
+  const { auth, cargando } = useAuth();
+
+  if (cargando) return "Cargando...";
+  return (
+    <>
+      {auth?._id && auth?.tipoCuenta == "maestro" ? (
+        <main>
+          <Outlet />
+        </main>
+      ) : (
+        <Navigate to="/" />
+      )}
+    </>
+  );
+};
+
+export default HomeMaestroLayout;
