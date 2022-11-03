@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+//Layouts
 import AuthLayout from "./layout/AuthLayout";
-
-import HomeAdminLayout from "./layout/HomeAdminLayout";
+import HomeEstudianteLayout from "./layout/HomeEstudianteLayout";
+import HomeMaestroLayout from "./layout/HomeMaestroLayout";
+//Pages
 import Login from "./pages/Login";
 import Registrar from "./pages/Registrar";
 import OlvidePassword from "./pages/OlvidePassword";
 import ConfirmarCuenta from "./pages/ConfirmarCuenta";
 import NuevoPassword from "./pages/NuevoPassword";
-import NextPage from "./pages/NextPage";
-import HomeProfe from "./pages/HomeProfe";
-import Home from "./pages/Home";
 import HomeEstudiante from "./pages/HomeEstudiante";
+import HomeMaestro from "./pages/HomeMaestro";
 
 import { AuthProvider } from "./context/AuthProvider";
 
@@ -27,10 +27,12 @@ const App = () => {
             <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
           </Route>
 
-          <Route path="/admin" element={<HomeAdminLayout />}>
-            <Route index element={<Home />} />
-            <Route path="profesor" element={<HomeProfe />} />
-            <Route path="estudiante" element={<HomeEstudiante />} />
+          <Route path="/estudiante" element={<HomeEstudianteLayout />}>
+            <Route index element={<HomeEstudiante />} />
+          </Route>
+
+          <Route path="/maestro" element={<HomeMaestroLayout />}>
+            <Route index element={<HomeMaestro />} />
           </Route>
         </Routes>
       </AuthProvider>
