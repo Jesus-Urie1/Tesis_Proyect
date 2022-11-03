@@ -39,7 +39,11 @@ const Login = () => {
       });
       localStorage.setItem("token", data.token);
       setAuth(data);
-      navigate("/admin");
+      if (data.tipoCuenta == "estudiante") {
+        navigate("/estudiante");
+      } else if (data.tipoCuenta == "maestro") {
+        navigate("/maestro");
+      }
     } catch (error) {
       setAlerta({
         msg: error.response.data.msg,
