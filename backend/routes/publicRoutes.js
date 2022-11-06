@@ -7,7 +7,6 @@ import {
   comprobarToken,
   nuevoPassword,
 } from "../controllers/publicController.js";
-import checkAuth from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
