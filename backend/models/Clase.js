@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import generarCodigo from "../helpers/generarCodigo";
 
 //Schema de Clase
 const claseSchema = mongoose.Schema({
@@ -10,24 +9,16 @@ const claseSchema = mongoose.Schema({
   },
   codigo: {
     type: String,
-    default: generarCodigo(),
+    required: true, //Validacion del servidor
   },
-  maestros: [
-    {
-      id: { type: String, unique: true },
-      nombre: { type: String, required: true },
-      apellidos: { type: String, required: true },
-      email: { type: String, required: true },
-    },
-  ],
-  estudiantes: [
-    {
-      id: { type: String, unique: true },
-      nombre: { type: String, required: true },
-      apellidos: { type: String, required: true },
-      email: { type: String, required: true },
-    },
-  ],
+  maestros: {
+    type: Array,
+    default: [],
+  },
+  estudiantes: {
+    type: Array,
+    default: [],
+  },
 });
 
 const Clase = mongoose.model("Clase", claseSchema); //Registrar el modelo
