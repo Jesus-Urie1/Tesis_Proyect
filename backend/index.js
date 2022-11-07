@@ -2,7 +2,8 @@ import express from "express";
 import conectarDB from "./config/db.js";
 import dotenv from "dotenv";
 import publicRoutes from "./routes/publicRoutes.js";
-import privateRoutes from "./routes/privateRoutes.js";
+import maestroRoutes from "./routes/maestroRoutes.js";
+import estudianteRoutes from "./routes/estudianteRoutes.js";
 import cors from "cors";
 
 //Inicializamos express
@@ -32,7 +33,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/api/", publicRoutes, privateRoutes);
+app.use("/api", publicRoutes, maestroRoutes, estudianteRoutes);
 
 const PORT = process.env.PORT || 4000;
 
