@@ -13,17 +13,27 @@ const checkAuth = async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      //Guardando informacion de la BD
-      req.usuario = await Maestro.findById(decoded.id).select(
+      //Buscando mediante el ID al Usuario
+      const maestro = await Maestro.findById(decoded.id).select(
         "-password -token -confirmado"
       );
 
-      if (!req.usuario) {
-        req.usuario = await Estudiante.findById(decoded.id).select(
-          "-password -token -confirmado"
-        );
+      const estudiante = await Estudiante.findById(decoded.id).select(
+        "-password -token -confirmado"
+      );
+
+      if (maestro) {
+        req.usuario = maestro;
       }
 
+      if (estudiante) {
+        req.usuario = estudiante;
+      }
+
+      if (!req.usuario) {
+        const e = new Error(" Token no valido ");
+        res.status(403).json({ msg: e.message });
+      }
       return next();
     } catch (error) {
       const e = new Error(" Token no valido ");
