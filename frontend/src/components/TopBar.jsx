@@ -1,7 +1,8 @@
 import useAuth from "../hooks/useAuth";
 import { HiPlus, HiMenu } from "react-icons/hi";
+import { useState } from "react";
 
-const TopBar = () => {
+const TopBar = ({ setShowClassModal }) => {
   const { cerrarSesion } = useAuth();
 
   return (
@@ -22,7 +23,10 @@ const TopBar = () => {
       </div>
 
       <div className="flex items-center">
-        <button className="p-1 rounded-full hover:bg-indigo-600 mr-2">
+        <button
+          className="p-1 rounded-full hover:bg-indigo-600 mr-2"
+          onClick={() => setShowClassModal(true)}
+        >
           <HiPlus color="white" size={30} />
         </button>
         <button className="rounded-full hover:bg-indigo-600 p-1">
