@@ -57,12 +57,6 @@ const registrar = async (req, res) => {
   }
 };
 
-//Controller Perfil
-const perfil = (req, res) => {
-  const { usuario } = req;
-  res.json(usuario);
-};
-
 //Controller Confirmar cuenta
 const confirmar = async (req, res) => {
   const { token } = req.params; //Leer datos de la URL
@@ -248,7 +242,6 @@ const nuevoPassword = async (req, res) => {
 
 export {
   registrar,
-  perfil,
   confirmar,
   authenticar,
   olvidePassword,
