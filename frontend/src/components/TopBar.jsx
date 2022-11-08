@@ -1,6 +1,5 @@
 import useAuth from "../hooks/useAuth";
 import { HiPlus, HiMenu } from "react-icons/hi";
-import { useState } from "react";
 
 const TopBar = ({ setShowClassModal }) => {
   const { cerrarSesion } = useAuth();
