@@ -1,7 +1,7 @@
 import useAuth from "../hooks/useAuth";
 import { HiPlus, HiMenu } from "react-icons/hi";
 
-const TopBar = ({ setShowClassModal }) => {
+const TopBarSalonDeClase = ({ setShowClassModal }) => {
   const { cerrarSesion } = useAuth();
 
   return (
@@ -15,19 +15,11 @@ const TopBar = ({ setShowClassModal }) => {
         </button>
 
         <div className="flex items-center flex-shrink-0 text-white">
-          <span className="font-semibold text-xl tracking-tight">
-            Plataforma Educativa
-          </span>
+          <span className="font-semibold text-xl tracking-tight">Español</span>
         </div>
       </div>
 
       <div className="flex items-center">
-        <button
-          className="p-1 rounded-full hover:bg-indigo-600 mr-2"
-          onClick={() => setShowClassModal(true)}
-        >
-          <HiPlus color="white" size={30} />
-        </button>
         <button className="rounded-full hover:bg-indigo-600 p-1">
           <img
             src="https://img2.gratispng.com/20180613/egk/kisspng-professor-stock-photography-5b218ab481d817.8727019215289248525319.jpg"
@@ -39,4 +31,4 @@ const TopBar = ({ setShowClassModal }) => {
   );
 };
 
-export default TopBar;
+export default TopBarSalonDeClase;

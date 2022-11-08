@@ -11,6 +11,7 @@ import ConfirmarCuenta from "./pages/ConfirmarCuenta";
 import NuevoPassword from "./pages/NuevoPassword";
 import HomeEstudiante from "./pages/HomeEstudiante";
 import HomeMaestro from "./pages/HomeMaestro";
+import SalonDeClases from "./pages/SalonDeClases";
 
 import { AuthProvider } from "./context/AuthProvider";
 
@@ -33,6 +34,7 @@ const App = () => {
 
           <Route path="/maestro" element={<HomeMaestroLayout />}>
             <Route index element={<HomeMaestro />} />
+            <Route path="salonDeClases/:codigo" element={<SalonDeClases />} />
           </Route>
         </Routes>
       </AuthProvider>
