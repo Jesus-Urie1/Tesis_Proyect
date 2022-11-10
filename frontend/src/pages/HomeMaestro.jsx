@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const HomeMaestro = () => {
   const [showClassModal, setShowClassModal] = useState(false);
-
+  const [clases, setClases] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,8 @@ const HomeMaestro = () => {
         };
         const url = "/obtenerClases";
         const { data } = await clientesAxios(url, config);
-        localStorage.setItem("clases", JSON.stringify(data));
+        setClases(data);
+        //localStorage.setItem("clases", JSON.stringify(data));
       } catch (error) {
         console.log(error);
       }
@@ -33,8 +34,9 @@ const HomeMaestro = () => {
   }, []);
 
   //Obtener el clases del localStorage
-  const clases = JSON.parse(localStorage.getItem("clases"));
+  //const clases = JSON.parse(localStorage.getItem("clases"));
 
+  //Enviar al salón de clases
   const toClase = (codigo) => {
     navigate(`salonDeClases/${codigo}`);
   };
