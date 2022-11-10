@@ -7,9 +7,19 @@ const claseSchema = mongoose.Schema({
     required: true, //Validacion del servidor
     trim: true, //Eliminamos los espacion en blanco
   },
+  grado: {
+    type: Number,
+    required: true,
+    trim: true,
+  },
+  grupo: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   codigo: {
     type: String,
-    required: true, //Validacion del servidor
+    required: true,
   },
   maestros: {
     type: Array,
