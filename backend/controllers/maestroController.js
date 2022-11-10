@@ -6,7 +6,7 @@ import generarCodigo from "../helpers/generarCodigo.js";
 //Crear una nueva clase de parte del Maestro
 const nuevaClase = async (req, res) => {
   let token;
-  const { nombre } = req.body; //Cuando llenas un formulario
+  const { nombre, grado, grupo } = req.body; //Cuando llenas un formulario
 
   try {
     //Token Auth
@@ -22,6 +22,8 @@ const nuevaClase = async (req, res) => {
     //Objeto nueva clase
     const clase = {
       nombre,
+      grado,
+      grupo,
       codigo: generarCodigo(),
       maestros: {
         id: decoded.id,
@@ -41,4 +43,27 @@ const nuevaClase = async (req, res) => {
   }
 };
 
-export { nuevaClase };
+//Proporcionar informacion de la clase
+const infoClase = async (req, res) => {
+  const { codigo } = req.params;
+
+  //Obteniendo la clase actual
+  const clase = await Clase.findOne({ codigo });
+
+  res.json(clase);
+};
+
+//Obtener la informacion de las clases donde este dentro el maestro
+const obtenerClases = async (req, res) => {
+  //Token Auth
+  let token = req.headers.authorization.split(" ")[1];
+  //Obteniendo ID del maestro
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const id = decoded.id;
+
+  const clases = await Clase.find({ "maestros.id": id }).select(
+    "-_id -maestros -estudiantes  -__v"
+  );
+  res.json(clases);
+};
+export { nuevaClase, infoClase, obtenerClases };
