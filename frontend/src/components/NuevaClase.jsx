@@ -43,7 +43,10 @@ const NuevaClase = () => {
       );
       navigate(`salonDeClases/${data.codigo}`);
     } catch (error) {
-      console.log(error);
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
     }
   };
 
