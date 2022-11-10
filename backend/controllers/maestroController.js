@@ -33,11 +33,25 @@ const nuevaClase = async (req, res) => {
       },
     };
 
-    //Creando y guardado la nueva Clase en la BD
-    const nuevaClase = new Clase(clase);
-    const nuevaClaseGuardado = await nuevaClase.save();
+    //Verificar si ya existe la clase
+    const claseExiste = await Clase.find({
+      "maestros.id": decoded.id,
+      nombre,
+      grado,
+      grupo,
+    });
 
-    res.json(nuevaClaseGuardado);
+    if (claseExiste.length == 0) {
+      //Creando y guardado la nueva Clase en la BD
+      const nuevaClase = new Clase(clase);
+      const nuevaClaseGuardado = await nuevaClase.save();
+
+      return res.json(nuevaClaseGuardado);
+    }
+
+    //Error si ya existe la clase
+    const error = new Error("Esta clase ya existe");
+    return res.status(400).json({ msg: error.message });
   } catch (error) {
     console.log(error);
   }
