@@ -1,11 +1,43 @@
 import { useState } from "react";
 import TopBarSalonDeClase from "../components/TopBarSalonDeClase";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import clientesAxios from "../config/axios";
 
 const SalonDeClases = () => {
   const [showClassModal, setShowClassModal] = useState(false);
+  const [infoClase, setInfoClase] = useState({});
+  const params = useParams();
+  const { codigo } = params;
+
+  useEffect(() => {
+    const obtenerInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const url = `/infoClase/${codigo}`;
+        const { data } = await clientesAxios(url, config);
+        setInfoClase(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    obtenerInfo();
+  }, []);
+  console.log(infoClase);
   return (
     <>
-      <TopBarSalonDeClase setShowClassModal={setShowClassModal} />
+      <TopBarSalonDeClase
+        nombre={infoClase.nombre}
+        grado={infoClase.grado}
+        grupo={infoClase.grupo}
+        setShowClassModal={setShowClassModal}
+      />
       <div className="flex justify-center">
         <div className="w-9/12">
           <div className="flex justify-between">
@@ -27,7 +59,7 @@ const SalonDeClases = () => {
               <div className="w-full rounded bg-white">
                 <div className="p-5 rounded-xl shadow-xl bg-white border-2 mb-3">
                   <h3 className="font-semibold">Código de clase </h3>
-                  <h2>ad3F4RSa</h2>
+                  <h2>{codigo}</h2>
                 </div>
                 <div className="p-5 rounded-xl shadow-xl bg-white border-2 ">
                   <h3 className="font-semibold">Próximas entregas</h3>
