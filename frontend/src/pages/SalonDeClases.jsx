@@ -29,7 +29,7 @@ const SalonDeClases = () => {
     };
     obtenerInfo();
   }, []);
-  console.log(infoClase);
+
   return (
     <>
       <TopBarSalonDeClase
