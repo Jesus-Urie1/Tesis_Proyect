@@ -1,7 +1,7 @@
 import useAuth from "../hooks/useAuth";
 import { HiPlus, HiMenu } from "react-icons/hi";
 
-const TopBarSalonDeClase = ({ setShowClassModal }) => {
+const TopBarSalonDeClase = ({ setShowClassModal, nombre, grado, grupo }) => {
   const { cerrarSesion } = useAuth();
 
   return (
@@ -15,11 +15,10 @@ const TopBarSalonDeClase = ({ setShowClassModal }) => {
             <HiMenu color="white" size={26} />
           </button>
 
-          <div className="flex items-center flex-shrink-0 text-white">
-            <span className="font-semibold text-xl tracking-tight">
-              Español
-            </span>
-          </div>
+        <div className="flex items-center flex-shrink-0 text-white">
+          <span className="font-semibold text-xl tracking-tight">
+            {nombre} {grado} {grupo}
+          </span>
         </div>
 
         <div className="flex items-center">
