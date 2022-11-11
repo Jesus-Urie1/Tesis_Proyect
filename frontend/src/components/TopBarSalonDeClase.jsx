@@ -15,10 +15,11 @@ const TopBarSalonDeClase = ({ setShowClassModal, nombre, grado, grupo }) => {
             <HiMenu color="white" size={26} />
           </button>
 
-        <div className="flex items-center flex-shrink-0 text-white">
-          <span className="font-semibold text-xl tracking-tight">
-            {nombre} {grado} {grupo}
-          </span>
+          <div className="flex items-center flex-shrink-0 text-white">
+            <span className="font-semibold text-xl tracking-tight">
+              {nombre} {grado} {grupo}
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center">
@@ -30,7 +31,6 @@ const TopBarSalonDeClase = ({ setShowClassModal, nombre, grado, grupo }) => {
           </button>
         </div>
       </div>
-      <div>asd</div>
     </nav>
   );
 };
