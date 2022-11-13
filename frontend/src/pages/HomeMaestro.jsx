@@ -11,7 +11,7 @@ import useFetch from "../hooks/useFetch";
 
 const ListCards = ({ clasesMemo, loading, toClase }) => {
   return (
-    <div className="flex flex-wrap justify-center xl:justify-start mt-10 ml-5">
+    <div className="flex flex-wrap md:justify-start justify-center mt-10 ml-5">
       {clasesMemo.length === 0 && loading && <>Esta cargando...</>}
       {clasesMemo.map((clase) => (
         <div
@@ -55,7 +55,7 @@ const HomeMaestro = () => {
     <>
       <div>
         <TopBar setShowClassModal={setShowClassModal} />
-        <div className="flex justify-around pt-10">
+        <div className="flex ml-5 pt-10">
           <h1 className="text-black font-black text-6xl">Mis Clases</h1>
         </div>
         <ListCards
