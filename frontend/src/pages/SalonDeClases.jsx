@@ -4,9 +4,13 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import clientesAxios from "../config/axios";
 
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 const SalonDeClases = () => {
   const [showClassModal, setShowClassModal] = useState(false);
   const [infoClase, setInfoClase] = useState({});
+  const [editor, setEditor] = useState(false);
   const params = useParams();
   const { codigo } = params;
 
@@ -42,7 +46,10 @@ const SalonDeClases = () => {
         <div className="w-9/12">
           <div className="flex justify-between">
             <div className="w-3/4 h-10">
-              <div className=" w-full flex text-gray-400 hover:text-gray-600 items-center p-4 rounded-xl shadow-xl bg-white border-2 mt-2">
+              <div
+                onClick={(e) => setEditor(!editor)}
+                className=" w-full flex text-gray-400 hover:text-gray-600 items-center p-4 rounded-xl shadow-xl bg-white border-2 mt-2"
+              >
                 <button className="rounded-full">
                   <img
                     src="https://img2.gratispng.com/20180613/egk/kisspng-professor-stock-photography-5b218ab481d817.8727019215289248525319.jpg"
@@ -51,6 +58,16 @@ const SalonDeClases = () => {
                 </button>
                 <h1 className="ml-4 w-full">Anunciar algo a tu clase</h1>
               </div>
+              {editor && (
+                <div className=" w-full flex text-gray-400 hover:text-gray-600 items-center p-4 rounded-xl shadow-xl bg-white border-2 mt-2">
+                  <Editor
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                  />
+                </div>
+              )}
+
               <div className=" w-full flex h-40 text-gray-400 hover:text-gray-600 items-center text-center p-4 rounded-xl shadow-xl bg-white border-2 mt-2">
                 <h1 className="ml-4 w-full">Aqui apareceran tus anuncios</h1>
               </div>
