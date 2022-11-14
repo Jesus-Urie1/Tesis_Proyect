@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import clientesAxios from "../config/axios";
 
 const useFetch = (url, method, body) => {
