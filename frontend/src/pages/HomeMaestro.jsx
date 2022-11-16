@@ -2,18 +2,18 @@ import TopBar from "../components/TopBar";
 import ClaseCard from "../components/ClaseCard";
 import NuevaClase from "../components/NuevaClase";
 import NuevaClaseMod from "../components/NuevaClaseMod";
-import { useState, useEffect, useMemo } from "react";
-import clientesAxios from "../config/axios";
-import { useNavigate } from "react-router-dom";
-import shallow from "zustand/shallow";
-import useClasesStore from "./useClasesStore";
-import useFetch from "../hooks/useFetch";
+import { useState, useEffect } from "react";
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { obtenerClases } from "../store/Slices/Clases";
 
-const ListCards = ({ clasesMemo, loading, toClase }) => {
+import { useNavigate } from "react-router-dom";
+
+const ListCards = ({ clasesRedux, toClase }) => {
   return (
     <div className="flex flex-wrap md:justify-start justify-center mt-10 ml-5">
-      {clasesMemo.length === 0 && loading && <>Esta cargando...</>}
-      {clasesMemo.map((clase) => (
+      {clasesRedux.length === 0 && <>Esta cargando...</>}
+      {clasesRedux.map((clase) => (
         <div
           key={clase.codigo}
           onClick={() => {
@@ -33,24 +33,21 @@ const ListCards = ({ clasesMemo, loading, toClase }) => {
 
 const HomeMaestro = () => {
   const [showClassModal, setShowClassModal] = useState(false);
-  const [clases, setClases] = useClasesStore(
-    (state) => [state.clases, state.setClases],
-    shallow
-  );
-  const clasesMemo = useMemo(() => clases, [clases]);
-  const navigate = useNavigate();
-  const url = "/obtenerClases";
-  const { data, loading } = useFetch(url);
 
+  const clasesRedux = useSelector((state) => state.clases);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (data) setClases(data);
-  }, [data]);
+    dispatch(obtenerClases());
+  }, [dispatch]);
 
   const toClase = (codigo) => {
     navigate(`salonDeClases/${codigo}`);
   };
 
   const handleCloseModal = () => setShowClassModal(false);
+
   return (
     <>
       <div>
@@ -58,11 +55,7 @@ const HomeMaestro = () => {
         <div className="flex ml-5 pt-10">
           <h1 className="text-black font-black text-6xl">Mis Clases</h1>
         </div>
-        <ListCards
-          clasesMemo={clasesMemo}
-          loading={loading}
-          toClase={toClase}
-        />
+        <ListCards clasesRedux={clasesRedux.clases} toClase={toClase} />
       </div>
       <NuevaClaseMod isVisible={showClassModal} onClose={handleCloseModal}>
         <NuevaClase />
