@@ -3,6 +3,11 @@ import Alerta from "../components/Alerta";
 import clientesAxios from "../config/axios";
 import { useNavigate } from "react-router-dom";
 
+//Redux
+import { crearClase } from "../store/Slices/Clases";
+import { useDispatch, useSelector } from "react-redux";
+import { setCrearClase } from "../store/Slices/Clases";
+
 const NuevaClase = () => {
   const [nombre, setNombre] = useState("");
   const [grado, setGrado] = useState(0);
@@ -11,9 +16,11 @@ const NuevaClase = () => {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const { msg } = alerta;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if ([nombre, grupo].includes("") || grado <= 0) {
@@ -24,30 +31,29 @@ const NuevaClase = () => {
       return;
     }
 
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const { data } = await clientesAxios.post(
-        "/nuevaClase",
-        {
-          nombre,
-          grado,
-          grupo,
-        },
-        config
-      );
-      navigate(`salonDeClases/${data.codigo}`);
-    } catch (error) {
-      setAlerta({
-        msg: error.response.data.msg,
-        error: true,
-      });
-    }
+    //Se crea la clase
+    const response = dispatch(
+      crearClase({
+        nombre,
+        grado,
+        grupo,
+      })
+    );
+    //Se obtiene respuesta
+    response.then((r) => {
+      if (r.response.status === 200) {
+        //Push a la store
+        dispatch(setCrearClase(r.response.data));
+        //Mandar al usuario al componente
+        navigate(`salonDeClases/${r.response.data.codigo}`);
+      } else {
+        //Error si ya existe la clase
+        setAlerta({
+          msg: r.response.data.msg,
+          error: true,
+        });
+      }
+    });
   };
 
   return (
