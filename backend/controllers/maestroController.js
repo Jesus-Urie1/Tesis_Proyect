@@ -78,6 +78,11 @@ const obtenerClases = async (req, res) => {
   const clases = await Clase.find({ "maestros.id": id }).select(
     "-_id -maestros -estudiantes  -__v"
   );
+
+  if (clases.length === 0) {
+    const error = new Error("Entra a una clase o crea una!");
+    return res.status(400).json({ msg: error.message });
+  }
   res.json(clases);
 };
 export { nuevaClase, infoClase, obtenerClases };
