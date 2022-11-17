@@ -42,7 +42,8 @@ const SalonDeClases = () => {
         grupo={infoClase.grupo}
         setShowClassModal={setShowClassModal}
       />
-      <div className="flex justify-center">
+
+      <div className="flex justify-center mt-5">
         <div className="w-9/12">
           <div className="flex justify-between">
             <div className="w-3/4 h-10">
@@ -73,7 +74,7 @@ const SalonDeClases = () => {
               </div>
             </div>
             <div className="w-1/4 mt-2 ml-5">
-              <div className="w-full rounded bg-white">
+              <div className="w-full rounded">
                 <div className="p-5 rounded-xl shadow-xl bg-white border-2 mb-3">
                   <h3 className="font-semibold">Código de clase </h3>
                   <h2>{codigo}</h2>
