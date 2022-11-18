@@ -2,46 +2,47 @@ import { useState } from "react";
 import TopBarSalonDeClase from "../components/TopBarSalonDeClase";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import clientesAxios from "../config/axios";
 
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { infoClase } from "../store/Slices/Clases";
+import { setInfoClase } from "../store/Slices/Clases";
 
 const SalonDeClases = () => {
   const [showClassModal, setShowClassModal] = useState(false);
-  const [infoClase, setInfoClase] = useState({});
+
   const [editor, setEditor] = useState(false);
   const params = useParams();
   const { codigo } = params;
 
+  const dispatch = useDispatch();
+
+  //Se obtiene el arreglo de las clases de la store
+  const infoClaseRedux = useSelector((state) => state.clases);
+
   useEffect(() => {
-    const obtenerInfo = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const url = `/infoClase/${codigo}`;
-        const { data } = await clientesAxios(url, config);
-        setInfoClase(data);
-      } catch (error) {
-        console.log(error);
+    //Se obtienen las clases
+    const response = dispatch(infoClase(codigo));
+
+    //Se obtiene respuesta
+    response.then((r) => {
+      if (r.response.status === 200) {
+        //Se hace push a la store
+        dispatch(setInfoClase(r.response.data));
       }
-    };
-    obtenerInfo();
-  }, []);
+    });
+  }, [dispatch]);
 
   return (
     <>
-      <TopBarSalonDeClase
-        nombre={infoClase.nombre}
-        grado={infoClase.grado}
-        grupo={infoClase.grupo}
-        setShowClassModal={setShowClassModal}
-      />
+      {infoClaseRedux.infoClase.codigo === codigo && (
+        <TopBarSalonDeClase
+          nombre={infoClaseRedux.infoClase.nombre}
+          grado={infoClaseRedux.infoClase.grado}
+          grupo={infoClaseRedux.infoClase.grupo}
+          setShowClassModal={setShowClassModal}
+        />
+      )}
       <div className="flex justify-center">
         <div className="w-9/12">
           <div className="flex justify-between">
@@ -60,11 +61,7 @@ const SalonDeClases = () => {
               </div>
               {editor && (
                 <div className=" w-full flex text-gray-400 hover:text-gray-600 items-center p-4 rounded-xl shadow-xl bg-white border-2 mt-2">
-                  <Editor
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                  />
+                  {" "}
                 </div>
               )}
 
