@@ -6,6 +6,7 @@ const clasesSlice = createSlice({
   initialState: {
     clases: [],
     infoClase: [],
+    anuncios: [],
   },
   reducers: {
     setObtenerClases: (state, action) => {
@@ -17,11 +18,18 @@ const clasesSlice = createSlice({
     setInfoClase: (state, action) => {
       state.infoClase = action.payload;
     },
+    setNuevoAnuncio: (state, action) => {
+      state.infoClase = action.payload;
+    },
   },
 });
 
-export const { setObtenerClases, setCrearClase, setInfoClase } =
-  clasesSlice.actions;
+export const {
+  setObtenerClases,
+  setCrearClase,
+  setInfoClase,
+  setNuevoAnuncio,
+} = clasesSlice.actions;
 
 export const obtenerClases = () => async () => {
   const url = "/obtenerClases";
@@ -45,6 +53,14 @@ export const infoClase = (codigo) => async () => {
     return e.response;
   });
 
+  return { response };
+};
+
+export const nuevoAnuncio = (body) => async () => {
+  const url = "/nuevoAnuncio";
+  const response = await clientesAxios.post(url, body).catch((e) => {
+    return e.response;
+  });
   return { response };
 };
 
