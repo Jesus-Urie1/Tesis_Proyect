@@ -29,6 +29,10 @@ const claseSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
+  anuncios: {
+    type: Array,
+    default: [],
+  },
 });
 
 const Clase = mongoose.model("Clase", claseSchema); //Registrar el modelo

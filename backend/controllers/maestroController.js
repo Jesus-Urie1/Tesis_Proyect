@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import Maestro from "../models/Maestro.js";
 import Clase from "../models/Clase.js";
 import generarCodigo from "../helpers/generarCodigo.js";
+import moment from "moment";
 
 //Crear una nueva clase de parte del Maestro
 const nuevaClase = async (req, res) => {
@@ -85,4 +86,51 @@ const obtenerClases = async (req, res) => {
   }
   res.json(clases);
 };
-export { nuevaClase, infoClase, obtenerClases };
+
+//Publicar un nuevo anuncio de parte del Maestro
+const nuevoAnuncio = async (req, res) => {
+  const { codigo, anuncio } = req.body;
+  let token;
+
+  //Obteniendo la clase actual
+  const clase = await Clase.findOne({ codigo });
+
+  //Verificar que exista la clase
+  if (!clase) {
+    const error = new Error("No se encontró la clase");
+    return res.status(400).json({ msg: error.message });
+  }
+
+  try {
+    //Token Auth
+    token = req.headers.authorization.split(" ")[1];
+    //Obteniendo ID del maestro
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    //Obteniendo maestro actual
+    const maestro = await Maestro.findById(decoded.id).select(
+      "-_id -password -token -confirmado -tipoCuenta -__v"
+    );
+
+    //Objeto estudiante
+    const nuevoAnuncio = {
+      id: Date.now(),
+      anuncio,
+      fechaPublicacion: moment().calendar(),
+      de: maestro.nombre,
+    };
+
+    //Nuevo array de estudiantes
+    const nuevosAnuncios = [...clase.anuncios, nuevoAnuncio];
+
+    //Guardado el array en la DB
+    clase.anuncios = nuevosAnuncios;
+    const nuevoAnuncioGuardado = await clase.save();
+
+    res.json(nuevoAnuncioGuardado);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { nuevaClase, infoClase, obtenerClases, nuevoAnuncio };

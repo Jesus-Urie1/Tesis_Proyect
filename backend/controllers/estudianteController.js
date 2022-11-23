@@ -9,7 +9,7 @@ const entrarClase = async (req, res) => {
 
   //Obteniendo la clase actual
   const clase = await Clase.findOne({ codigo });
-
+  y;
   //Verificar que exista la clase
   if (!clase) {
     const error = new Error("No se encontró la clase");
