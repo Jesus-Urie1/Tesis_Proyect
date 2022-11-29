@@ -1,6 +1,6 @@
 import React from "react";
 
-const NuevaClaseMod = ({ isVisible, onClose, children }) => {
+const Modal = ({ isVisible, onClose, children }) => {
   if (!isVisible) return null;
 
   const handleClose = (e) => {
@@ -13,17 +13,17 @@ const NuevaClaseMod = ({ isVisible, onClose, children }) => {
       id="wrapper"
       onClick={handleClose}
     >
-      <div className="w-[450px] flex flex-col">
+      <div className="w-auto flex flex-col">
         <button
           className="text-white text-xl place-self-end"
           onClick={() => onClose()}
         >
           X
         </button>
-        <div className="bg-white p-5 rounded"> {children}</div>
+        <div className="bg-white rounded"> {children}</div>
       </div>
     </div>
   );
 };
 
-export default NuevaClaseMod;
+export default Modal;

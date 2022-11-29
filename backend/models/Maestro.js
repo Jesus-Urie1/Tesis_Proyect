@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import generarId from "../helpers/generarId.js";
 
-//Schema de Estudiante
+//Schema de Maestro
 const maestroSchema = mongoose.Schema({
   nombre: {
     type: String, //Tipo de dato
@@ -26,17 +25,18 @@ const maestroSchema = mongoose.Schema({
   },
   token: {
     type: String,
-    default: generarId(),
+    default: null,
+  },
+  numCuenta: {
+    type: String,
+    required: true,
+    unique: true, //Garantizamos que usamos un numero por cuenta
+    trim: true,
   },
   tipoCuenta: {
     type: String, //Tipo de dato
     required: true, //Validacion del servidor
     trim: true, //Eliminamos los espacion en blanco
-  },
-  confirmado: {
-    //Para confirmar cuenta
-    type: Boolean,
-    default: false,
   },
 });
 

@@ -1,90 +1,36 @@
 import jwt from "jsonwebtoken";
 import Maestro from "../models/Maestro.js";
-import Clase from "../models/Clase.js";
-import generarCodigo from "../helpers/generarCodigo.js";
+import Grupo from "../models/Grupo.js";
 import moment from "moment";
 
-//Crear una nueva clase de parte del Maestro
-const nuevaClase = async (req, res) => {
-  let token;
-  const { nombre, grado, grupo } = req.body; //Cuando llenas un formulario
-
-  try {
-    //Token Auth
-    token = req.headers.authorization.split(" ")[1];
-    //Obteniendo ID del maestro
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    //Obteniendo maestro actual
-    const maestro = await Maestro.findById(decoded.id).select(
-      "-_id -password -token -confirmado -tipoCuenta -__v"
-    );
-
-    //Objeto nueva clase
-    const clase = {
-      nombre,
-      grado,
-      grupo,
-      codigo: generarCodigo(),
-      maestros: {
-        id: decoded.id,
-        nombre: maestro.nombre,
-        apellidos: maestro.apellidos,
-        email: maestro.email,
-      },
-    };
-
-    //Verificar si ya existe la clase
-    const claseExiste = await Clase.find({
-      "maestros.id": decoded.id,
-      nombre,
-      grado,
-      grupo,
-    });
-
-    if (claseExiste.length == 0) {
-      //Creando y guardado la nueva Clase en la BD
-      const nuevaClase = new Clase(clase);
-      const nuevaClaseGuardado = await nuevaClase.save();
-
-      return res.json(nuevaClaseGuardado);
-    }
-
-    //Error si ya existe la clase
-    const error = new Error("Esta clase ya existe");
-    return res.status(400).json({ msg: error.message });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//Proporcionar informacion de la clase
+//Proporcionar informacion de la grupo
 const infoClase = async (req, res) => {
-  const { codigo } = req.params;
+  const { grupo } = req.params;
 
-  //Obteniendo la clase actual
-  const clase = await Clase.findOne({ codigo });
+  //Obteniendo la grupo actual
+  const grupoObtenido = await Grupo.findOne({ grupo });
 
-  res.json(clase);
+  res.json(grupoObtenido);
 };
 
-//Obtener la informacion de las clases donde este dentro el maestro
+//Obtener la informacion de las grupos donde este dentro el maestro
 const obtenerClases = async (req, res) => {
   //Token Auth
   let token = req.headers.authorization.split(" ")[1];
   //Obteniendo ID del maestro
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const id = decoded.id;
 
-  const clases = await Clase.find({ "maestros.id": id }).select(
-    "-_id -maestros -estudiantes  -__v"
-  );
+  const maestro = await Maestro.findById(decoded.id);
 
-  if (clases.length === 0) {
-    const error = new Error("Entra a una clase o crea una!");
+  const grupos = await Grupo.find({
+    "maestros.numCuenta": maestro.numCuenta,
+  }).select(" -__v");
+
+  if (grupos.length === 0) {
+    const error = new Error("En este momento no cuentas con grupos!");
     return res.status(400).json({ msg: error.message });
   }
-  res.json(clases);
+  res.json(grupos);
 };
 
 //Publicar un nuevo anuncio de parte del Maestro
@@ -92,12 +38,12 @@ const nuevoAnuncio = async (req, res) => {
   const { codigo, anuncio } = req.body;
   let token;
 
-  //Obteniendo la clase actual
-  const clase = await Clase.findOne({ codigo });
+  //Obteniendo la grupo actual
+  const grupo = await Grupo.findOne({ codigo });
 
-  //Verificar que exista la clase
-  if (!clase) {
-    const error = new Error("No se encontró la clase");
+  //Verificar que exista la grupo
+  if (!grupo) {
+    const error = new Error("No se encontró la grupo");
     return res.status(400).json({ msg: error.message });
   }
 
@@ -121,11 +67,11 @@ const nuevoAnuncio = async (req, res) => {
     };
 
     //Nuevo array de estudiantes
-    const nuevosAnuncios = [...clase.anuncios, nuevoAnuncio];
+    const nuevosAnuncios = [...grupo.anuncios, nuevoAnuncio];
 
     //Guardado el array en la DB
-    clase.anuncios = nuevosAnuncios;
-    const nuevoAnuncioGuardado = await clase.save();
+    grupo.anuncios = nuevosAnuncios;
+    const nuevoAnuncioGuardado = await grupo.save();
 
     res.json(nuevoAnuncioGuardado);
   } catch (error) {
@@ -133,4 +79,4 @@ const nuevoAnuncio = async (req, res) => {
   }
 };
 
-export { nuevaClase, infoClase, obtenerClases, nuevoAnuncio };
+export { infoClase, obtenerClases, nuevoAnuncio };
