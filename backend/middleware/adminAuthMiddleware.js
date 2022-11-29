@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken";
 import Administracion from "../models/Administracion.js";
-import Estudiante from "../models/Estudiante.js";
-import Maestro from "../models/Maestro.js";
 
-const checkAuth = async (req, res, next) => {
+const adminAuth = async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&
@@ -14,31 +12,10 @@ const checkAuth = async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      //Buscando mediante el ID al Usuario
-
-      const admin = await Administracion.findById(decoded.id).select(
-        "-password -token"
+      //Buscando mediante el ID al maestro
+      req.usuario = await Administracion.findById(decoded.id).select(
+        "-password -token "
       );
-
-      const maestro = await Maestro.findById(decoded.id).select(
-        "-password -token"
-      );
-
-      const estudiante = await Estudiante.findById(decoded.id).select(
-        "-password -token"
-      );
-
-      if (admin) {
-        req.usuario = admin;
-      }
-
-      if (maestro) {
-        req.usuario = maestro;
-      }
-
-      if (estudiante) {
-        req.usuario = estudiante;
-      }
 
       if (!req.usuario) {
         const e = new Error(" Token no valido ");
@@ -60,4 +37,4 @@ const checkAuth = async (req, res, next) => {
   next();
 };
 
-export default checkAuth;
+export default adminAuth;

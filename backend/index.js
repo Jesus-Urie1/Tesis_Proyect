@@ -5,6 +5,7 @@ import publicRoutes from "./routes/publicRoutes.js";
 import maestroRoutes from "./routes/maestroRoutes.js";
 import estudianteRoutes from "./routes/estudianteRoutes.js";
 import privateRoutes from "./routes/privateRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 import cors from "cors";
 
@@ -35,9 +36,16 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/api", publicRoutes, privateRoutes, maestroRoutes, estudianteRoutes);
+app.use(
+  "/api",
+  publicRoutes,
+  privateRoutes,
+  maestroRoutes,
+  estudianteRoutes,
+  adminRoutes
+);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log(`Servidor funcionando en el puerto ${PORT}`);

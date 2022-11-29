@@ -10,19 +10,21 @@ const emailRegistro = async (datos) => {
     },
   });
 
-  const { email, nombre, token } = datos;
+  const { email, nombre, numCuenta, password } = datos;
 
   //Enviar el email
   const info = await transporter.sendMail({
-    from: "APV - Administrador de Pacientes de Veterinario",
+    from: "Universidad de Colima",
     to: email,
-    subject: "Comprueba tu cuenta en APV",
-    text: "Comprueba tu cuenta en APV",
-    html: `<p> Hola: ${nombre}, comprueba tu cuenta en APV.</p>
-           <p> Tu cuenta ya esta lista, solo debes comprobarla en el siguente enlace:
-           <a href="${process.env.FRONTEND_URL}/confirmar/${token}">Comprobar cuenta</a></p>
+    subject: "Datos de cuenta",
+    text: "Cuenta creada correctamente",
+    html: `<p> Hola: ${nombre}, estos son los datos de tu cuenta.</p>
+           <p> Tu cuenta ya esta lista:</p>
+           <p> Usuario: <b>${numCuenta}</b></p>
+           <p> Contraseña: <b>${password}</b></p>
+           <p><i>Esta contraseña es temporal<i></b></p>
 
-           <p>Si tu no creaste tu cuenta, ignora este correo</p>
+           <p>Si no reconoces esta institucion, ignora este correo</p>
     `,
   });
 

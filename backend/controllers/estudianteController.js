@@ -1,18 +1,18 @@
 import jwt from "jsonwebtoken";
-import Clase from "../models/Clase.js";
+import Grupo from "../models/Grupo.js";
 import Estudiante from "../models/Estudiante.js";
 
-//Entrar a una nueva clase de parte del estudiante
-const entrarClase = async (req, res) => {
+//Entrar a una nueva grupo de parte del estudiante
+const entrarGrupo = async (req, res) => {
   const { codigo } = req.body;
   let token;
 
-  //Obteniendo la clase actual
-  const clase = await Clase.findOne({ codigo });
-  y;
-  //Verificar que exista la clase
-  if (!clase) {
-    const error = new Error("No se encontró la clase");
+  //Obteniendo la grupo actual
+  const grupo = await Grupo.findOne({ codigo });
+
+  //Verificar que exista la grupo
+  if (!grupo) {
+    const error = new Error("No se encontró la grupo");
     return res.status(400).json({ msg: error.message });
   }
 
@@ -22,9 +22,9 @@ const entrarClase = async (req, res) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   //Verificar si ya existe el estudiante
-  const existeEstudiante = clase.estudiantes.filter((estudiante) => {
+  const existeEstudiante = grupo.estudiantes.filter((estudiante) => {
     if (estudiante.id == decoded.id) {
-      const error = new Error("Ya estas en la clase");
+      const error = new Error("Ya estas en la grupo");
       return res.status(400).json({ msg: error.message });
     }
   });
@@ -45,11 +45,11 @@ const entrarClase = async (req, res) => {
       };
 
       //Nuevo array de estudiantes
-      const nuevosEstudiantes = [...clase.estudiantes, nuevoEstudiante];
+      const nuevosEstudiantes = [...grupo.estudiantes, nuevoEstudiante];
 
       //Guardado el array en la DB
-      clase.estudiantes = nuevosEstudiantes;
-      const nuevoEstudianteGuardado = await clase.save();
+      grupo.estudiantes = nuevosEstudiantes;
+      const nuevoEstudianteGuardado = await grupo.save();
 
       res.json(nuevoEstudianteGuardado);
     } catch (error) {
@@ -58,4 +58,4 @@ const entrarClase = async (req, res) => {
   }
 };
 
-export { entrarClase };
+export { entrarGrupo };
