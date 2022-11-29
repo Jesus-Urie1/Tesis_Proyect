@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-//Schema de Estudiante
-const estudianteSchema = mongoose.Schema({
+//Schema de Administracion
+const administracionSchema = mongoose.Schema({
   nombre: {
     type: String, //Tipo de dato
     required: true, //Validacion del servidor
@@ -23,15 +23,15 @@ const estudianteSchema = mongoose.Schema({
     unique: true, //Garantizamos que usamos un email por cuenta
     trim: true,
   },
+  token: {
+    type: String,
+    default: null,
+  },
   numCuenta: {
     type: String,
     required: true,
     unique: true, //Garantizamos que usamos un numero por cuenta
     trim: true,
-  },
-  token: {
-    type: String,
-    default: null,
   },
   tipoCuenta: {
     type: String, //Tipo de dato
@@ -41,7 +41,7 @@ const estudianteSchema = mongoose.Schema({
 });
 
 //Hasheando el password
-estudianteSchema.pre("save", async function (next) {
+administracionSchema.pre("save", async function (next) {
   //Un password que ya esta hasheado, no lo vuelva a hashear
   if (!this.isModified("password")) {
     next();
@@ -51,12 +51,12 @@ estudianteSchema.pre("save", async function (next) {
 });
 
 //Comprobando password
-estudianteSchema.methods.comprobarPassword = async function (
+administracionSchema.methods.comprobarPassword = async function (
   passwordFormulario
 ) {
   return await bcrypt.compare(passwordFormulario, this.password);
 };
 
-const Estudiante = mongoose.model("Estudiante", estudianteSchema); //Registrar el modelo
+const Administracion = mongoose.model("admin", administracionSchema); //Registrar el modelo
 
-export default Estudiante;
+export default Administracion;
