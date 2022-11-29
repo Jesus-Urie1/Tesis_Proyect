@@ -5,20 +5,15 @@ const TopBar = ({ setShowClassModal }) => {
   const { cerrarSesion } = useAuth();
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-indigo-700 p-3">
+    <nav className="flex items-center justify-between flex-wrap bg-green-700 p-3">
       <div className="flex">
         <button
-          className="flex items-center p-2  rounded-full hover:bg-indigo-600 mr-2"
+          className="flex items-center p-2  rounded-full hover:bg-green-600 mr-2"
           data-collapse-toggle="navbar-default"
         >
           <HiMenu color="white" size={26} />
         </button>
-
-        <div className="flex items-center flex-shrink-0 text-white">
-          <span className="font-semibold text-xl tracking-tight">
-            Plataforma Educativa
-          </span>
-        </div>
+        <img src="logo-nav.png" />
       </div>
 
       <div className="flex items-center">

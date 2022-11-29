@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TopBarSalonDeClase from "../components/TopBarSalonDeClase";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import AnunciosCard from "../components/AnunciosCard";
 
-//Editor
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+//import AnunciosCard from "../components/AnunciosCard";
+// //Editor
+// import { Editor } from "react-draft-wysiwyg";
+// import { EditorState, convertToRaw } from "draft-js";
+// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 //Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -17,11 +16,12 @@ import { setInfoClase, setNuevoAnuncio } from "../store/Slices/Clases";
 const SalonDeClases = () => {
   const [showClassModal, setShowClassModal] = useState(false);
 
-  const [anuncio, setAnuncio] = useState(() => EditorState.createEmpty());
+  // const [anuncio, setAnuncio] = useState(() => EditorState.createEmpty());
+  // const [editor, setEditor] = useState(false);
 
-  const [editor, setEditor] = useState(false);
   const params = useParams();
-  const { codigo } = params;
+
+  const { grupo } = params;
 
   const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ const SalonDeClases = () => {
 
   useEffect(() => {
     //Se obtienen las clases
-    const response = dispatch(infoClase(codigo));
+    const response = dispatch(infoClase(grupo));
 
     //Se obtiene respuesta
     response.then((r) => {
@@ -41,42 +41,37 @@ const SalonDeClases = () => {
     });
   }, [dispatch]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-    //Se publica el anuncio
-    const response = dispatch(
-      nuevoAnuncio({
-        codigo,
-        anuncio: JSON.stringify(convertToRaw(anuncio.getCurrentContent())),
-      })
-    );
-    //Se obtiene respuesta
-    response.then((r) => {
-      if (r.response.status === 200) {
-        //Push a la store
-        dispatch(setNuevoAnuncio(r.response.data));
-      }
-    });
-    setAnuncio(() => EditorState.createEmpty());
-    setEditor(!editor);
-  };
+  //   //Se publica el anuncio
+  //   const response = dispatch(
+  //     nuevoAnuncio({
+  //       codigo,
+  //       anuncio: JSON.stringify(convertToRaw(anuncio.getCurrentContent())),
+  //     })
+  //   );
+  //   //Se obtiene respuesta
+  //   response.then((r) => {
+  //     if (r.response.status === 200) {
+  //       //Push a la store
+  //       dispatch(setNuevoAnuncio(r.response.data));
+  //     }
+  //   });
+  //   setAnuncio(() => EditorState.createEmpty());
+  //   setEditor(!editor);
+  // };
 
   return (
     <>
-      {infoClaseRedux.infoClase.codigo === codigo && (
-        <TopBarSalonDeClase
-          nombre={infoClaseRedux.infoClase.nombre}
-          grado={infoClaseRedux.infoClase.grado}
-          grupo={infoClaseRedux.infoClase.grupo}
-          setShowClassModal={setShowClassModal}
-        />
+      {infoClaseRedux.infoClase.grupo === grupo && (
+        <TopBarSalonDeClase grupo={infoClaseRedux.infoClase.grupo} />
       )}
 
       <div className="flex justify-center">
         <div className="w-9/12">
           <div className="flex justify-between">
-            <div className="w-3/4 h-10">
+            {/* <div className="w-3/4 h-10">
               {editor ? (
                 <form
                   onSubmit={handleSubmit}
@@ -125,22 +120,10 @@ const SalonDeClases = () => {
                   <h1 className="ml-4 w-full">Anunciar algo a tu clase</h1>
                 </div>
               )}
-              {infoClaseRedux.infoClase.codigo === codigo && (
+              {infoClaseRedux.infoClase.grupo === grupo && (
                 <AnunciosCard anuncios={infoClaseRedux.infoClase.anuncios} />
               )}
-            </div>
-            <div className="w-1/4 mt-2 ml-5">
-              <div className="w-full rounded">
-                <div className="p-5 rounded-xl shadow-xl bg-white border-2 mb-3">
-                  <h3 className="font-semibold">Código de clase </h3>
-                  <h2>{codigo}</h2>
-                </div>
-                <div className="p-5 rounded-xl shadow-xl bg-white border-2 ">
-                  <h3 className="font-semibold">Próximas entregas</h3>
-                  <h2>we342r</h2>
-                </div>
-              </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

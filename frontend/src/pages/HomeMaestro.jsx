@@ -1,7 +1,6 @@
 import TopBar from "../components/TopBar";
 import ClaseCard from "../components/ClaseCard";
-import NuevaClase from "../components/NuevaClase";
-import NuevaClaseMod from "../components/NuevaClaseMod";
+
 import { useState, useEffect } from "react";
 //Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -19,16 +18,12 @@ const ListCards = ({ clasesRedux, toClase, sinClases }) => {
       )}
       {clasesRedux.map((clase) => (
         <div
-          key={clase.codigo}
+          key={clase.grupo}
           onClick={() => {
-            toClase(clase.codigo);
+            toClase(clase.grupo);
           }}
         >
-          <ClaseCard
-            titulo={clase.nombre}
-            grado={clase.grado}
-            grupo={clase.grupo}
-          />
+          <ClaseCard grado={clase.grado} grupo={clase.grupo} />
         </div>
       ))}
     </div>
@@ -63,18 +58,16 @@ const HomeMaestro = () => {
   }, [dispatch]);
 
   //Funcion onClick para navegar hacia las clases
-  const toClase = (codigo) => {
-    navigate(`salonDeClases/${codigo}`);
+  const toClase = (grupo) => {
+    navigate(`salonDeClases/${grupo}`);
   };
-
-  const handleCloseModal = () => setShowClassModal(false);
 
   return (
     <>
       <div>
-        <TopBar setShowClassModal={setShowClassModal} />
+        <TopBar />
         <div className="flex ml-5 pt-10">
-          <h1 className="text-black font-black text-6xl">Mis Clases</h1>
+          <h1 className="text-black font-black text-6xl">Mis Grupos</h1>
         </div>
         <ListCards
           clasesRedux={clasesRedux.clases}
@@ -82,9 +75,6 @@ const HomeMaestro = () => {
           sinClases={sinClases}
         />
       </div>
-      <NuevaClaseMod isVisible={showClassModal} onClose={handleCloseModal}>
-        <NuevaClase />
-      </NuevaClaseMod>
     </>
   );
 };
