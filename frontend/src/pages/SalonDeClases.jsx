@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { infoClase, nuevoAnuncio } from "../store/Slices/Clases";
 import { setInfoClase, setNuevoAnuncio } from "../store/Slices/Clases";
+import TablaAlumnos from "../components/TablaAlumnos";
 
 const SalonDeClases = () => {
   const [showClassModal, setShowClassModal] = useState(false);
@@ -71,6 +72,12 @@ const SalonDeClases = () => {
       <div className="flex justify-center">
         <div className="w-9/12">
           <div className="flex justify-between">
+            {infoClaseRedux.infoClase.grupo === grupo && (
+              <TablaAlumnos
+                estudiantes={infoClaseRedux.infoClase.estudiantes}
+              />
+            )}
+
             {/* <div className="w-3/4 h-10">
               {editor ? (
                 <form

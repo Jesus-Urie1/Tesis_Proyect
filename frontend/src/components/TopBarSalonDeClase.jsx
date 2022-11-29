@@ -5,9 +5,9 @@ const TopBarSalonDeClase = ({ nombre, grado, grupo }) => {
   const { cerrarSesion } = useAuth();
 
   return (
-    <nav className=" bg-green-700 px-3 pt-3 ">
+    <nav className=" bg-green-700  pt-3 ">
       <div>
-        <div className="flex items-center justify-between flex-wrap">
+        <div className="flex items-center justify-between flex-wrap p-2">
           <div className="flex">
             <button
               className="flex items-center p-2  rounded-full hover:bg-green-600 mr-2"
@@ -32,23 +32,23 @@ const TopBarSalonDeClase = ({ nombre, grado, grupo }) => {
             </button>
           </div>
         </div>
-        <div className="flex justify-center ">
-          <button className="flex  border-b-4 border-white  w-32 justify-center hover:bg-green-600 py-2">
-            <div className="font-semibold text-xl tracking-tight text-white">
+        <div className="flex justify-center bg-white ">
+          <button className="flex  border-b-4  justify-center hover:border-b-5 hover:border-b-black border-b-black  py-2">
+            <div className="font-semibold text-xl px-2 tracking-tight text-black">
               Lista de Asistencia
             </div>
           </button>
           <div>
-            <button className="flex  border-b-4 border-transparent w-32 justify-center hover:bg-green-600 py-2">
-              <div className="font-semibold text-xl tracking-tight text-slate-400 ">
+            <button className="flex  border-b-4   border-transparent justify-center hover:border-b-black py-2">
+              <div className="font-semibold text-xl px-2 tracking-tight text-slate-400 ">
                 Examenes
               </div>
             </button>
           </div>
 
           <div>
-            <button className="flex  border-b-4 border-transparent w-32 justify-center hover:bg-green-600  py-2">
-              <div className="font-semibold text-xl tracking-tight text-slate-400 ">
+            <button className="flex  border-b-4 border-transparent justify-center hover:border-b-black  py-2">
+              <div className="font-semibold text-xl px-2 tracking-tight text-slate-400 ">
                 Alumnos
               </div>
             </button>

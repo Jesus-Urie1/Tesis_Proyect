@@ -1,6 +1,9 @@
 import React from "react";
+import { useState } from "react";
 
-const TablaAlumnos = () => {
+const TablaAlumnos = ({ estudiantes, asistencia, reporte }) => {
+  const [formulario, setFormulario] = useState(false);
+
   return (
     <div className="container mx-auto px-4 sm:px-8 ">
       <div className="py-8 ">
@@ -18,57 +21,61 @@ const TablaAlumnos = () => {
                   <th className="px-5 py-3 border-b-2 border-gray-200  text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Correo ucol
                   </th>
-                  <th className="pl-6 py-3 border-b-2 border-gray-200  text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 border-b-2 border-gray-200  text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Estado
                   </th>
 
                   {/** Checkbox y header dependen de Asistencia */}
-                  <th className=" py-3 border-b-2 border-gray-200  text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                    <p>Asistencia</p>
-                    <div className="ml-4  text-gray-400">
-                      <p>Si | No</p>
+                  <th className="flex justify-center items-center bg-purple-200 py-3 border-b-2 border-gray-200  text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <div>
+                      <p>Asistencia</p>
+                      <div className="ml-4  text-gray-400">
+                        <p>Si | No</p>
+                      </div>
                     </div>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {/**Hover depende de Reporte  */}
-                <tr className=" hover:bg-slate-200">
-                  <td className="px-5 py-5 border-b border-gray-200 text-sm ">
-                    <p className="text-gray-900 ">
-                      Hector Alfonso Velasco Alvarez
-                    </p>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 text-sm">
-                    <p className="text-gray-900 ">20151071</p>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200  text-sm">
-                    <p className="text-gray-900 ">hvelasco0@ucol.mx</p>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                    <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                      <span
-                        aria-hidden
-                        class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                      ></span>
-                      <span class="relative">Excelente</span>
-                    </span>
-                  </td>
-                  <td className=" py-5 border-b border-gray-200  text-sm ">
-                    <div className="flex justify-around ">
-                      <div className="">
-                        <span class="text-sm">Si</span>
-                        <input className="ml-1 " type="checkbox" />
+                {estudiantes.map((estudiante) => (
+                  <tr className=" hover:bg-slate-200" key={estudiante._id}>
+                    <td className="px-5 py-5 border-b border-gray-200 text-sm ">
+                      <p className="text-gray-900 ">
+                        {estudiante.nombre} {estudiante.apellidos}
+                      </p>
+                    </td>
+                    <td className="px-5 py-5 border-b border-gray-200 text-sm">
+                      <p className="text-gray-900 ">{estudiante.numCuenta}</p>
+                    </td>
+                    <td className="px-5 py-5 border-b border-gray-200  text-sm">
+                      <p className="text-gray-900 ">{estudiante.email}</p>
+                    </td>
+                    <td className="px-5 py-5 border-b border-gray-200 text-sm">
+                      <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                        <span
+                          aria-hidden
+                          className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                        ></span>
+                        <span className="relative">Excelente</span>
+                      </span>
+                    </td>
+                    <td className=" py-5 border-b border-gray-200  text-sm ">
+                      <div className="flex justify-around ">
+                        <div className="">
+                          <span className="text-sm">Si</span>
+                          <input className="ml-1 " type="checkbox" />
+                        </div>
+                        <div className="mr-5">
+                          <span className="text-sm">No</span>
+                          <input className="ml-1 " type="checkbox" />
+                        </div>
                       </div>
-                      <div className="mr-5">
-                        <span class="text-sm">No</span>
-                        <input className="ml-1 " type="checkbox" />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                ))}
 
-                <tr>
+                {/* <tr>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     <p className="text-gray-900 whitespace-no-wrap">
                       Jesus Uriel Velazquez Palomino
@@ -184,7 +191,7 @@ const TablaAlumnos = () => {
                     </span>
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"></td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </div>
