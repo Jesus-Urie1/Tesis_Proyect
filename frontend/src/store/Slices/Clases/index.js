@@ -5,8 +5,9 @@ const clasesSlice = createSlice({
   name: "clases",
   initialState: {
     clases: [],
-    infoClase: [],
-    anuncios: [],
+    maestros: [],
+    alumnos: [],
+    grupos: [],
   },
   reducers: {
     setObtenerClases: (state, action) => {
@@ -15,11 +16,29 @@ const clasesSlice = createSlice({
     setCrearClase: (state, action) => {
       state.clases = [...state.clases, action.payload];
     },
-    setInfoClase: (state, action) => {
-      state.infoClase = action.payload;
+    setNuevaListaA: (state, action) => {
+      state.clases = action.payload;
     },
-    setNuevoAnuncio: (state, action) => {
-      state.infoClase = action.payload;
+    setNuevaActitud: (state, action) => {
+      state.clases = action.payload;
+    },
+    setObtenerMaestros: (state, action) => {
+      state.maestros = action.payload;
+    },
+    setObtenerAlumnos: (state, action) => {
+      state.alumnos = action.payload;
+    },
+    setObtenerGrupos: (state, action) => {
+      state.grupos = action.payload;
+    },
+    setRegistrarMaestro: (state, action) => {
+      state.maestros = [...state.maestros, action.payload];
+    },
+    setRegistrarAlumno: (state, action) => {
+      state.alumnos = [...state.alumnos, action.payload];
+    },
+    setAgregarActitud: (state, action) => {
+      state.alumnos = action.payload;
     },
   },
 });
@@ -27,12 +46,42 @@ const clasesSlice = createSlice({
 export const {
   setObtenerClases,
   setCrearClase,
-  setInfoClase,
-  setNuevoAnuncio,
+  setNuevaListaA,
+  setNuevaActitud,
+  setObtenerMaestros,
+  setObtenerAlumnos,
+  setRegistrarMaestro,
+  setRegistrarAlumno,
+  setAgregarActitud,
+  setObtenerGrupos,
 } = clasesSlice.actions;
 
 export const obtenerClases = () => async () => {
   const url = "/obtenerClases";
+  const response = await clientesAxios(url).catch((e) => {
+    return e.response;
+  });
+  return { response };
+};
+
+export const obtenerGrupos = () => async () => {
+  const url = "/obtenerGrupos";
+  const response = await clientesAxios(url).catch((e) => {
+    return e.response;
+  });
+  return { response };
+};
+
+export const obtenerAlumnos = () => async () => {
+  const url = "/obtenerAlumnos";
+  const response = await clientesAxios(url).catch((e) => {
+    return e.response;
+  });
+  return { response };
+};
+
+export const obtenerMaestros = () => async () => {
+  const url = "/obtenerMaestros";
   const response = await clientesAxios(url).catch((e) => {
     return e.response;
   });
@@ -47,17 +96,32 @@ export const crearClase = (body) => async () => {
   return { response };
 };
 
-export const infoClase = (codigo) => async () => {
-  const url = `/infoClase/${codigo}`;
-  const response = await clientesAxios(url).catch((e) => {
+export const nuevaListaA = (body) => async () => {
+  const url = "/nuevaListaA";
+  const response = await clientesAxios.post(url, body).catch((e) => {
     return e.response;
   });
-
   return { response };
 };
 
-export const nuevoAnuncio = (body) => async () => {
-  const url = "/nuevoAnuncio";
+export const nuevaActitud = (body) => async () => {
+  const url = "/nuevaActitud";
+  const response = await clientesAxios.post(url, body).catch((e) => {
+    return e.response;
+  });
+  return { response };
+};
+
+export const registrar = (body) => async () => {
+  const url = "/registrar";
+  const response = await clientesAxios.post(url, body).catch((e) => {
+    return e.response;
+  });
+  return { response };
+};
+
+export const agregarActitud = (body) => async () => {
+  const url = "/agregarActitud";
   const response = await clientesAxios.post(url, body).catch((e) => {
     return e.response;
   });

@@ -8,7 +8,8 @@ import HomeAdminLayout from "./layout/HomeAdminLayout";
 import Login from "./pages/Login";
 import HomeEstudiante from "./pages/HomeEstudiante";
 import HomeMaestro from "./pages/HomeMaestro";
-import SalonDeClases from "./pages/SalonDeClases";
+import Alumnos from "./pages/Alumnos";
+import ListadeAsistencia from "./pages/ListadeAsistencia";
 import HomeAdmin from "./pages/HomeAdmin";
 
 import { AuthProvider } from "./context/AuthProvider";
@@ -28,7 +29,11 @@ const App = () => {
 
           <Route path="/maestro" element={<HomeMaestroLayout />}>
             <Route index element={<HomeMaestro />} />
-            <Route path="salonDeClases/:grupo" element={<SalonDeClases />} />
+            <Route path=":grupo/alumnos" element={<Alumnos />} />
+            <Route
+              path=":grupo/listadeasistencia"
+              element={<ListadeAsistencia />}
+            />
           </Route>
 
           <Route path="/estudiante" element={<HomeEstudianteLayout />}>

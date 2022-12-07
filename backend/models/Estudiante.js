@@ -17,17 +17,15 @@ const estudianteSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true, //Garantizamos que usamos un email por cuenta
-    trim: true,
-  },
   numCuenta: {
     type: String,
     required: true,
     unique: true, //Garantizamos que usamos un numero por cuenta
-    trim: true,
+    default: 20220000,
+  },
+  actitudes: {
+    type: Array,
+    default: [],
   },
   token: {
     type: String,

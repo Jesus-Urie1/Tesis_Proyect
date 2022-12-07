@@ -1,24 +1,7 @@
-import { HiDotsVertical } from "react-icons/hi";
-
 const ClaseCard = ({ grado, grupo }) => {
   return (
-    <div className="bg-white shadow-lg rounded-xl border-2 hover:border-2 hover:border-indigo-600 justify-items-center  w-72 h-72 mr-3 mb-5 flex flex-col justify-between">
-      <div className="flex justify-between bg-indigo-200  p-7 rounded-t-xl ">
-        <div className="truncate tracking-tighter	 text-black/500 font-semibold text-2xl "></div>
-        <div className="rounded-full hover:bg-indigo-100 p-2">
-          <HiDotsVertical color="black" size={20} />
-        </div>
-      </div>
-
-      <div className="flex justify-between mx-5 mb-3">
-        <h6 className=" flex italic">
-          Grado: <div className="pl-2 font-medium"> {grado}</div>
-        </h6>
-
-        <h6 className="flex italic">
-          Grupo:<div className="pl-2 font-medium"> {grupo}</div>
-        </h6>
-      </div>
+    <div className="text-green-700 hover:text-green-600 bg-white shadow-lg rounded-xl border-2 hover:border-2 hover:border-green-600 m-10  w-40 h-40 mr-3 mb-5 flex justify-center items-center ">
+      <div className="pl-2 font-medium text-8xl "> {grupo}</div>
     </div>
   );
 };

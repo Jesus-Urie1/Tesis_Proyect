@@ -71,20 +71,13 @@ const registrar = async (req, res) => {
       const nuevoEstudiante = {
         nombre,
         apellidos,
-        email,
         password,
         numCuenta,
         tipoCuenta,
       };
       const estudiante = new Estudiante(nuevoEstudiante);
       const estudianteGuardado = await estudiante.save();
-      //Enviar el email
-      emailRegistro({
-        email,
-        nombre,
-        numCuenta,
-        password,
-      });
+
       res.json(estudianteGuardado);
     } catch (error) {
       console.log(error);
@@ -105,7 +98,7 @@ const nuevoGrupo = async (req, res) => {
     const estudiantes = await Estudiante.find().select(
       " -password -token -confirmado -tipoCuenta -__v"
     );
-
+    console.log(maestros);
     //Objeto nueva clase
     const clase = {
       grupo,
@@ -132,4 +125,42 @@ const nuevoGrupo = async (req, res) => {
   }
 };
 
-export { nuevoGrupo, registrar };
+//Obtener a todos los maestros
+const obtenerMaestros = async (req, res) => {
+  const maestros = await Maestro.find();
+
+  if (maestros.length === 0) {
+    const error = new Error("No existen maestros registrados!");
+    return res.status(400).json({ msg: error.message });
+  }
+  res.json(maestros);
+};
+
+//Obtener a todos los alumnos
+const obtenerAlumnos = async (req, res) => {
+  const alumnos = await Estudiante.find();
+
+  if (alumnos.length === 0) {
+    const error = new Error("No existen alumnos registrados!");
+    return res.status(400).json({ msg: error.message });
+  }
+  res.json(alumnos);
+};
+
+//Obtener a todos los alumnos
+const obtenerGrupos = async (req, res) => {
+  const grupos = await Grupo.find();
+
+  if (grupos.length === 0) {
+    const error = new Error("No existen grupos registrados!");
+    return res.status(400).json({ msg: error.message });
+  }
+  res.json(grupos);
+};
+export {
+  nuevoGrupo,
+  registrar,
+  obtenerMaestros,
+  obtenerAlumnos,
+  obtenerGrupos,
+};

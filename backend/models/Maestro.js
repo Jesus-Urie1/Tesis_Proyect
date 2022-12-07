@@ -33,6 +33,14 @@ const maestroSchema = mongoose.Schema({
     unique: true, //Garantizamos que usamos un numero por cuenta
     trim: true,
   },
+  listasAsistencia: {
+    type: Array,
+    default: [],
+  },
+  actitudes: {
+    type: Array,
+    default: [],
+  },
   tipoCuenta: {
     type: String, //Tipo de dato
     required: true, //Validacion del servidor
