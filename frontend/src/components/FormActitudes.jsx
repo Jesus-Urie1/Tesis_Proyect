@@ -1,119 +1,166 @@
 import { useState } from "react";
 import { RiAddCircleLine } from "react-icons/ri";
+import Modal from "./Modal";
+import NuevaActitud from "./NuevaActitud";
 
 //Redux
-import { useDispatch } from "react-redux";
-import { agregarActitud } from "../store/Slices/Clases";
-import { setAgregarActitud } from "../store/Slices/Clases";
-const FormActitudes = ({
-  actitudesOpcion,
-  actitudes,
-  setShowClassModal,
-  setActitudesOpcion,
-  alumnoSeleccionado,
-}) => {
+import { useDispatch, useSelector } from "react-redux";
+import { agregarConductaAlumno } from "../store/Slices/Maestros";
+import { setAgregarConductaAlumno } from "../store/Slices/Maestros";
+const FormActitudes = ({ alumnoSeleccionado, grupo }) => {
   const [titulo, setTitulo] = useState("");
   const [tipo, setTipo] = useState("");
   const [descripcion, setDescripcion] = useState("");
 
+  //Modal
+  const [showClassModal, setShowClassModal] = useState(false);
+  const handleCloseModal = () => setShowClassModal(false);
+
   const dispatch = useDispatch();
+
+  //Se obtiene el arreglo de las clases de la store
+  const redux = useSelector((state) => state.maestro);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const response = dispatch(
-      agregarActitud({
+      agregarConductaAlumno({
         tipo,
         titulo,
         descripcion,
-        numCuenta: alumnoSeleccionado,
+        email: alumnoSeleccionado,
+        emailMaestro: redux.auth.email,
       })
     );
 
     response.then((r) => {
       if (r.response.status === 200) {
         //Se hace push a la store
-        dispatch(setAgregarActitud(r.response.data));
+        dispatch(setAgregarConductaAlumno(r.response.data));
       }
     });
   };
+
   return (
     <>
-      {actitudesOpcion && (
-        <div className="w-1/4 ml-10 text-center">
-          <form onSubmit={handleSubmit}>
-            {alumnoSeleccionado !== 0 ? (
-              <p className="pb-4 text-green-800 font-bold text-xl">
-                {"Selecciona las actitudes:"}
-              </p>
-            ) : (
-              <p className="pb-4 text-green-700 font-bold text-xl">
-                {"<- Selecciona un alumno"}
-              </p>
-            )}
-            <div className=" min-w-full shadow-md rounded-lg ">
-              <table className="min-w-full leading-normal ">
-                <thead className="bg-green-600 ">
-                  <tr>
-                    <th className=" px-5 py-3 rounded text-center border-gray-200  text-sm font-semibold text-white uppercase tracking-wider ">
-                      Actitudes
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="text-center">
-                  {actitudes.map((actitud) => {
-                    if (actitud.tipo === "rojo") {
+      <div className="w-1/5 ml-10 text-center">
+        <form onSubmit={handleSubmit}>
+          {alumnoSeleccionado !== "" ? (
+            <p className="pb-4 text-green-800 font-bold text-xl">
+              {"Selecciona las conductas:"}
+            </p>
+          ) : (
+            <p className="pb-4 text-green-700 font-bold text-xl">
+              {"<- Selecciona un alumno"}
+            </p>
+          )}
+          <div className=" min-w-full shadow-xl rounded-lg ">
+            <table className="min-w-full leading-normal ">
+              <thead className="bg-gradient-to-r from-green-700 to-lime-600 ">
+                <tr>
+                  <th className=" px-5 py-3 rounded text-center border-gray-200  text-sm font-semibold text-white uppercase tracking-wider ">
+                    Conductas
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-center">
+                {redux.auth.conductas !== undefined &&
+                  redux.auth.conductas.map((conducta) => {
+                    if (conducta.tipo === "red" && alumnoSeleccionado !== "") {
                       return (
                         <tr>
                           <div className="mt-3">
                             <button
-                              className="  px-3 py-1 font-semibold text-red-900 leading-tight bg-red-200 hover:bg-red-400 rounded-lg"
+                              className="  px-3 py-1 font-semibold text-white leading-tight bg-red-700 hover:bg-red-400 rounded-lg"
                               onClick={() => {
-                                setTitulo(actitud.titulo),
-                                  setTipo(actitud.tipo),
-                                  setDescripcion(actitud.descripcion);
+                                setTitulo(conducta.titulo),
+                                  setTipo(conducta.tipo),
+                                  setDescripcion(conducta.descripcion);
                               }}
                               type="submit"
                             >
-                              <span>{actitud.titulo}</span>
+                              <span>{conducta.titulo}</span>
+                            </button>
+                          </div>
+                        </tr>
+                      );
+                    } else if (conducta.tipo === "red") {
+                      return (
+                        <tr>
+                          <div className="mt-3">
+                            <button
+                              className="px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-red-700 to-red-600 rounded-lg"
+                              disabled
+                            >
+                              <span>{conducta.titulo}</span>
                             </button>
                           </div>
                         </tr>
                       );
                     }
-                    if (actitud.tipo === "verde") {
+                    if (
+                      conducta.tipo === "green" &&
+                      alumnoSeleccionado !== ""
+                    ) {
                       return (
                         <tr>
                           <div className="mt-3">
                             <button
-                              className="  px-3 py-1 font-semibold text-green-900 leading-tight bg-green-200 hover:bg-green-400 rounded-lg"
+                              className="  px-3 py-1 font-semibold text-white leading-tight bg-green-700 hover:bg-green-500 rounded-lg"
                               onClick={() => {
-                                setTitulo(actitud.titulo),
-                                  setTipo(actitud.tipo),
-                                  setDescripcion(actitud.descripcion);
+                                setTitulo(conducta.titulo),
+                                  setTipo(conducta.tipo),
+                                  setDescripcion(conducta.descripcion);
                               }}
                               type="submit"
                             >
-                              <span>{actitud.titulo}</span>
+                              <span>{conducta.titulo}</span>
+                            </button>
+                          </div>
+                        </tr>
+                      );
+                    } else if (conducta.tipo === "green") {
+                      return (
+                        <tr>
+                          <div className="mt-3">
+                            <button
+                              className="px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-green-700 to-green-600 rounded-lg"
+                              disabled
+                            >
+                              <span>{conducta.titulo}</span>
                             </button>
                           </div>
                         </tr>
                       );
                     }
-                    if (actitud.tipo === "amarillo") {
+                    if (conducta.tipo === "blue" && alumnoSeleccionado !== "") {
                       return (
                         <tr>
                           <div className="mt-3">
                             <button
-                              className="  px-3 py-1 font-semibold text-yellow-900 leading-tight bg-yellow-200 hover:bg-yellow-400 rounded-lg"
+                              className="  px-3 py-1 font-semibold text-white leading-tight bg-sky-700 hover:bg-cyan-500 rounded-lg"
                               onClick={() => {
-                                setTitulo(actitud.titulo),
-                                  setTipo(actitud.tipo),
-                                  setDescripcion(actitud.descripcion);
+                                setTitulo(conducta.titulo),
+                                  setTipo(conducta.tipo),
+                                  setDescripcion(conducta.descripcion);
                               }}
                               type="submit"
                             >
-                              <span>{actitud.titulo}</span>
+                              <span>{conducta.titulo}</span>
+                            </button>
+                          </div>
+                        </tr>
+                      );
+                    } else if (conducta.tipo === "blue") {
+                      return (
+                        <tr>
+                          <div className="mt-3">
+                            <button
+                              className="px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-blue-700 to-cyan-700 rounded-lg"
+                              disabled
+                            >
+                              <span>{conducta.titulo}</span>
                             </button>
                           </div>
                         </tr>
@@ -121,26 +168,22 @@ const FormActitudes = ({
                     }
                   })}
 
-                  <tr>
-                    <div
-                      className="mt-3 mb-3 flex justify-center items-center text-green-700 hover:text-green-600 cursor-pointer"
-                      onClick={() => setShowClassModal(true)}
-                    >
-                      <RiAddCircleLine className="h-10 w-10" />
-                    </div>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </form>
-          <button
-            className="hover:bg-green-500  text-white mt-5 py-2 px-20 font-bold rounded-lg focus:outline-none focus:shadow-outline bg-green-600"
-            onClick={() => setActitudesOpcion(!actitudesOpcion)}
-          >
-            Salir
-          </button>
-        </div>
-      )}
+                <tr>
+                  <div
+                    className="mt-3 mb-3 flex justify-center items-center text-green-700 hover:text-green-600 cursor-pointer"
+                    onClick={() => setShowClassModal(true)}
+                  >
+                    <RiAddCircleLine className="h-10 w-10" />
+                  </div>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <Modal isVisible={showClassModal} onClose={handleCloseModal}>
+          <NuevaActitud grupo={grupo} onClose={handleCloseModal} />
+        </Modal>
+      </div>
     </>
   );
 };

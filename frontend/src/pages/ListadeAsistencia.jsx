@@ -13,8 +13,8 @@ const ListadeAsistencia = () => {
   const { grupo } = params;
 
   //Se obtiene el arreglo de las clases de la store
-  const infoGrupoRedux = useSelector((state) => state.clases);
-  const grupoActual = infoGrupoRedux.clases.filter((clase) => {
+  const infoGrupoRedux = useSelector((state) => state.maestro);
+  const grupoActual = infoGrupoRedux.grupos.filter((clase) => {
     if (clase.grupo === grupo) return clase;
   });
   return (

@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import Grupo from "../models/Grupo.js";
-import Estudiante from "../models/Estudiante.js";
+import Alumno from "../models/Alumno.js";
 
-//Entrar a una nueva grupo de parte del estudiante
+//Entrar a una nueva grupo de parte del alumno
 const entrarGrupo = async (req, res) => {
   const { codigo } = req.body;
   let token;
@@ -18,12 +18,12 @@ const entrarGrupo = async (req, res) => {
 
   //Token del auth
   token = req.headers.authorization.split(" ")[1];
-  //Obtener id del estudiante
+  //Obtener id del alumno
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  //Verificar si ya existe el estudiante
-  const existeEstudiante = grupo.estudiantes.filter((estudiante) => {
-    if (estudiante.id == decoded.id) {
+  //Verificar si ya existe el alumno
+  const existeEstudiante = grupo.estudiantes.filter((alumno) => {
+    if (alumno.id == decoded.id) {
       const error = new Error("Ya estas en la grupo");
       return res.status(400).json({ msg: error.message });
     }
@@ -31,17 +31,17 @@ const entrarGrupo = async (req, res) => {
 
   if (existeEstudiante.length == 0) {
     try {
-      //Obteniendo estudiante actual
-      const estudiante = await Estudiante.findById(decoded.id).select(
+      //Obteniendo alumno actual
+      const alumno = await Alumno.findById(decoded.id).select(
         "-_id -password -token -confirmado -tipoCuenta -__v"
       );
 
-      //Objeto estudiante
+      //Objeto alumno
       const nuevoEstudiante = {
         id: decoded.id,
-        nombre: estudiante.nombre,
-        apellidos: estudiante.apellidos,
-        email: estudiante.email,
+        nombre: alumno.nombre,
+        apellidos: alumno.apellidos,
+        email: alumno.email,
       };
 
       //Nuevo array de estudiantes

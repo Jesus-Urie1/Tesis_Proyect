@@ -10,7 +10,7 @@ const Login = () => {
 
   const [
     nombre,
-    numCuenta,
+    email,
     password,
     repetirPassword,
     validPassword,
@@ -25,7 +25,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ([numCuenta.value, password.value].includes("")) {
+    if ([email.value, password.value].includes("")) {
       setAlerta({ msg: "Todos los campos son obligatorios", error: true });
       return;
     }
@@ -34,7 +34,7 @@ const Login = () => {
 
     try {
       const { data } = await clientesAxios.post("/login", {
-        numCuenta: numCuenta.value,
+        email: email.value,
         password: password.value,
       });
 
@@ -44,8 +44,8 @@ const Login = () => {
         navigate("/administracion");
       } else if (data.tipoCuenta == "maestro") {
         navigate("/maestro");
-      } else if (data.tipoCuenta == "estudiante") {
-        navigate("/maestro");
+      } else if (data.tipoCuenta == "alumno") {
+        navigate("/alumno");
       }
     } catch (error) {
       setAlerta({
@@ -66,9 +66,9 @@ const Login = () => {
             <img src="logo.svg" className="w-28 mb-5" />
             <div>
               <LoginInput
-                type={"number"}
-                placeholder={"Núm. de Cuenta"}
-                {...numCuenta}
+                type={"email"}
+                placeholder={"Correo UCOL"}
+                {...email}
               />
             </div>
             <div>
@@ -82,12 +82,12 @@ const Login = () => {
             <input
               type="submit"
               value="Iniciar Sesión"
-              className="bg-green-600 w-full py-3 px-10 rounded-sm text-white uppercase 
+              className="bg-green-800 w-full py-3 px-10 rounded-sm text-white uppercase 
                    mt-5 hover:cursor-pointer hover:bg-indigo- md:w-auto "
             />
             <p className="mt-5 w-80 text-sm text-gray-500">
               Los datos para inicio de sesion son{" "}
-              <span className="font-bold">Número de Cuenta</span> y{" "}
+              <span className="font-bold">Correo UCOL</span> y{" "}
               <span className="font-bold">Clave de Correo UCOL</span> , en caso
               de no recordar su clave de correo, comunicarse a Servicios
               Telematicos para la recuperación de la clave. Ext. 00001.

@@ -3,13 +3,10 @@ import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 //Redux
 import {
-  obtenerAlumnos,
-  obtenerClases,
-  obtenerMaestros,
-  setObtenerAlumnos,
-  setObtenerMaestros,
-} from "../store/Slices/Clases";
-import { setObtenerClases } from "../store/Slices/Clases";
+  setAuth,
+  obtenerGrupos,
+  setObtenerGrupos,
+} from "../store/Slices/Maestros";
 import { useDispatch } from "react-redux";
 
 const HomeMaestroLayout = () => {
@@ -19,35 +16,13 @@ const HomeMaestroLayout = () => {
 
   useEffect(() => {
     //Se obtienen las clases
-    const response = dispatch(obtenerClases());
+    const response = dispatch(obtenerGrupos());
 
     //Se obtiene respuesta
     response.then((r) => {
       if (r.response.status === 200) {
         //Se hace push a la store
-        dispatch(setObtenerClases(r.response.data));
-      }
-    });
-
-    //Se obtienen las maestros
-    const response2 = dispatch(obtenerMaestros());
-
-    //Se obtiene respuesta
-    response2.then((r) => {
-      if (r.response.status === 200) {
-        //Se hace push a la store
-        dispatch(setObtenerMaestros(r.response.data));
-      }
-    });
-
-    //Se obtienen los alumnos
-    const response3 = dispatch(obtenerAlumnos());
-
-    //Se obtiene respuesta
-    response3.then((r) => {
-      if (r.response.status === 200) {
-        //Se hace push a la store
-        dispatch(setObtenerAlumnos(r.response.data));
+        dispatch(setObtenerGrupos(r.response.data));
       }
     });
   }, [dispatch]);

@@ -8,12 +8,12 @@ const grupoSchema = mongoose.Schema({
     trim: true,
   },
   maestros: {
-    type: Object,
-    default: {},
+    type: Array,
+    default: [],
   },
-  estudiantes: {
-    type: Object,
-    default: {},
+  alumnos: {
+    type: Array,
+    default: [],
   },
   // anuncios: {
   //   type: Array,

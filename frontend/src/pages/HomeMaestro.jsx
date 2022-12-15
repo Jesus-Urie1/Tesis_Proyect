@@ -1,10 +1,11 @@
 import TopBar from "../components/TopBar";
+import MenuMaestro from "../components/MenuMaestro";
+import Modal from "../components/Modal";
 import ClaseCard from "../components/ClaseCard";
 
 import { useState } from "react";
 //Redux
 import { useSelector } from "react-redux";
-
 import { useNavigate } from "react-router-dom";
 
 const ListCards = ({ clasesRedux, toClase, sinClases }) => {
@@ -29,8 +30,11 @@ const ListCards = ({ clasesRedux, toClase, sinClases }) => {
 };
 
 const HomeMaestro = () => {
+  const [showClassModal, setShowClassModal] = useState(false);
+
+  const handleCloseModal = () => setShowClassModal(false);
   const [sinClases, setSinClases] = useState("");
-  const clasesRedux = useSelector((state) => state.clases);
+  const redux = useSelector((state) => state.maestro);
   //Se obtiene el arreglo de las clases de la store
 
   const navigate = useNavigate();
@@ -42,15 +46,26 @@ const HomeMaestro = () => {
 
   return (
     <>
-      <TopBar />
+      <TopBar setShowClassModal={setShowClassModal} />
       <div className="flex justify-center ml-5 pt-10">
         <h1 className="text-black font-black text-6xl">Mis Grupos</h1>
       </div>
-      <ListCards
-        clasesRedux={clasesRedux.clases}
-        toClase={toClase}
-        sinClases={sinClases}
-      />
+      {redux.grupos.length === 0 ? (
+        <div className="flex justify-center items-center p-5 text-5xl">
+          <p className="text-green-700 font-bold">
+            No tienes grupos registrados!
+          </p>
+        </div>
+      ) : (
+        <ListCards
+          clasesRedux={redux.grupos}
+          toClase={toClase}
+          sinClases={sinClases}
+        />
+      )}
+      <Modal isVisible={showClassModal} onClose={handleCloseModal}>
+        <MenuMaestro onClose2={handleCloseModal} />
+      </Modal>
     </>
   );
 };

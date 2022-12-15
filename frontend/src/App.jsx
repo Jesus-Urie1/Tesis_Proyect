@@ -11,6 +11,7 @@ import HomeMaestro from "./pages/HomeMaestro";
 import Alumnos from "./pages/Alumnos";
 import ListadeAsistencia from "./pages/ListadeAsistencia";
 import HomeAdmin from "./pages/HomeAdmin";
+import AlumnosComun from "./pages/AlumnosComun";
 
 import { AuthProvider } from "./context/AuthProvider";
 
@@ -34,9 +35,10 @@ const App = () => {
               path=":grupo/listadeasistencia"
               element={<ListadeAsistencia />}
             />
+            <Route path=":grupo/alumnosComun" element={<AlumnosComun />} />
           </Route>
 
-          <Route path="/estudiante" element={<HomeEstudianteLayout />}>
+          <Route path="/alumno" element={<HomeEstudianteLayout />}>
             <Route index element={<HomeEstudiante />} />
           </Route>
         </Routes>

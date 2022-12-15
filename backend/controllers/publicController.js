@@ -1,18 +1,18 @@
 import Maestro from "../models/Maestro.js";
-import Estudiante from "../models/Estudiante.js";
+import Alumno from "../models/Alumno.js";
 import generarJWT from "../helpers/generarJWT.js";
 import Administracion from "../models/Administracion.js";
 
 //Controller Authenticar
 const authenticar = async (req, res) => {
-  const { numCuenta, password } = req.body;
+  const { email, password } = req.body;
 
   //Comprobar si usuario existe
-  const administracion = await Administracion.findOne({ numCuenta });
-  const estudiante = await Estudiante.findOne({ numCuenta });
-  const maestro = await Maestro.findOne({ numCuenta });
+  const administracion = await Administracion.findOne({ email });
+  const alumno = await Alumno.findOne({ email });
+  const maestro = await Maestro.findOne({ email });
 
-  if (!estudiante && !maestro && !administracion) {
+  if (!alumno && !maestro && !administracion) {
     const error = new Error("Usuario o clave incorrectos");
     return res.status(404).json({ msg: error.message });
   }
@@ -26,7 +26,6 @@ const authenticar = async (req, res) => {
         _id: usuario._id,
         nombre: usuario.nombre,
         email: usuario.email,
-        numCuenta: usuario.numCuenta,
         tipoCuenta: usuario.tipoCuenta,
         token: generarJWT(usuario.id),
       });
@@ -42,9 +41,9 @@ const authenticar = async (req, res) => {
     return;
   }
 
-  //Si es estudiante
-  if (estudiante) {
-    revisarPassword(estudiante);
+  //Si es alumno
+  if (alumno) {
+    revisarPassword(alumno);
     return;
   }
 
@@ -59,7 +58,7 @@ const authenticar = async (req, res) => {
 //   const { token } = req.params; //Leer datos de la URL
 
 //   const maestroConfirmar = await Maestro.findOne({ token });
-//   const estudianteConfirmar = await Estudiante.findOne({ token });
+//   const estudianteConfirmar = await Alumno.findOne({ token });
 
 //   if (!maestroConfirmar && !estudianteConfirmar) {
 //     const error = new Error("Token no valido");
@@ -85,7 +84,7 @@ const authenticar = async (req, res) => {
 //     return;
 //   }
 
-//   //Si es estudiante
+//   //Si es alumno
 //   if (estudianteConfirmar) {
 //     confirmar(estudianteConfirmar);
 //   }
@@ -95,7 +94,7 @@ const authenticar = async (req, res) => {
 // const olvidePassword = async (req, res) => {
 //   const { email } = req.body;
 
-//   const existeEstudiante = await Estudiante.findOne({ email });
+//   const existeEstudiante = await Alumno.findOne({ email });
 //   const existeMaestro = await Maestro.findOne({ email });
 
 //   if (!existeEstudiante && !existeMaestro) {
@@ -120,7 +119,7 @@ const authenticar = async (req, res) => {
 //     }
 //   };
 
-//   //Si es estudiante
+//   //Si es alumno
 //   if (existeEstudiante) {
 //     enviarEmail(existeEstudiante);
 //     return;
@@ -136,7 +135,7 @@ const authenticar = async (req, res) => {
 // const comprobarToken = async (req, res) => {
 //   const { token } = req.params; //Obteniendo token
 
-//   const tokenValidoEstudiante = await Estudiante.findOne({ token });
+//   const tokenValidoEstudiante = await Alumno.findOne({ token });
 //   const tokenValidoMaestro = await Maestro.findOne({ token });
 
 //   if (tokenValidoEstudiante || tokenValidoMaestro) {
@@ -153,10 +152,10 @@ const authenticar = async (req, res) => {
 //   const { password } = req.body;
 //   const { token } = req.params;
 
-//   const estudiante = await Estudiante.findOne({ token });
+//   const alumno = await Alumno.findOne({ token });
 //   const maestro = await Maestro.findOne({ token });
 
-//   if (!estudiante && !maestro) {
+//   if (!alumno && !maestro) {
 //     const error = new Error("Token no valido");
 //     return res.status(400).json({ msg: error.message });
 //   }
@@ -172,9 +171,9 @@ const authenticar = async (req, res) => {
 //     }
 //   };
 
-//   //Si es estudiante
-//   if (estudiante) {
-//     modificarPassword(estudiante);
+//   //Si es alumno
+//   if (alumno) {
+//     modificarPassword(alumno);
 //     return;
 //   }
 

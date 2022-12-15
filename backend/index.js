@@ -36,14 +36,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(
-  "/api",
-  publicRoutes,
-  privateRoutes,
-  maestroRoutes,
-  estudianteRoutes,
-  adminRoutes
-);
+app.use("/api", publicRoutes, privateRoutes, estudianteRoutes);
+
+app.use("/api/admin", adminRoutes);
+app.use("/api/maestro", maestroRoutes);
 
 const PORT = process.env.PORT || 4000;
 

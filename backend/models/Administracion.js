@@ -8,11 +8,6 @@ const administracionSchema = mongoose.Schema({
     required: true, //Validacion del servidor
     trim: true, //Eliminamos los espacion en blanco
   },
-  apellidos: {
-    type: String, //Tipo de dato
-    required: true, //Validacion del servidor
-    trim: true, //Eliminamos los espacion en blanco
-  },
   password: {
     type: String,
     required: true,
@@ -26,12 +21,6 @@ const administracionSchema = mongoose.Schema({
   token: {
     type: String,
     default: null,
-  },
-  numCuenta: {
-    type: String,
-    required: true,
-    unique: true, //Garantizamos que usamos un numero por cuenta
-    trim: true,
   },
   tipoCuenta: {
     type: String, //Tipo de dato

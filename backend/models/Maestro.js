@@ -1,14 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-
+import { conductas } from "../helpers/conductasPre.js";
 //Schema de Maestro
 const maestroSchema = mongoose.Schema({
   nombre: {
-    type: String, //Tipo de dato
-    required: true, //Validacion del servidor
-    trim: true, //Eliminamos los espacion en blanco
-  },
-  apellidos: {
     type: String, //Tipo de dato
     required: true, //Validacion del servidor
     trim: true, //Eliminamos los espacion en blanco
@@ -27,19 +22,14 @@ const maestroSchema = mongoose.Schema({
     type: String,
     default: null,
   },
-  numCuenta: {
-    type: String,
-    required: true,
-    unique: true, //Garantizamos que usamos un numero por cuenta
-    trim: true,
-  },
+
   listasAsistencia: {
     type: Array,
     default: [],
   },
-  actitudes: {
+  conductas: {
     type: Array,
-    default: [],
+    default: conductas,
   },
   tipoCuenta: {
     type: String, //Tipo de dato

@@ -2,8 +2,8 @@ import { useState } from "react";
 
 //Redux
 import { useDispatch } from "react-redux";
-import { registrar } from "../store/Slices/Clases";
-import { setRegistrarAlumno } from "../store/Slices/Clases";
+import { registrar } from "../store/Slices/Maestros";
+import { setRegistrarAlumno } from "../store/Slices/Maestros";
 
 const FormEstudiante = ({ onClose }) => {
   const [nombre, setNombre] = useState("");

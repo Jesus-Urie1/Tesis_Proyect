@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BiUserCheck, BiUserX, BiUserMinus } from "react-icons/bi";
 import useAuth from "../hooks/useAuth";
+
 //DatePicker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,9 +13,9 @@ const ListaAsistencia = ({ grupo }) => {
   const { auth } = useAuth();
   let grupoActual, maestro;
 
-  const infoGrupoRedux = useSelector((state) => state.clases);
+  const infoGrupoRedux = useSelector((state) => state.maestro);
   if (infoGrupoRedux) {
-    grupoActual = infoGrupoRedux.clases.filter((clase) => {
+    grupoActual = infoGrupoRedux.grupos.filter((clase) => {
       if (clase.grupo === grupo) return clase;
     });
   }
@@ -22,9 +23,10 @@ const ListaAsistencia = ({ grupo }) => {
   const maestros = grupoActual[0].maestros;
   if (maestros) {
     maestro = maestros.filter((m) => {
-      return m._id === auth._id;
+      return m === auth.email;
     });
   }
+  console.log(maestro);
   const numListas = maestro[0].listasAsistencia.length;
 
   const [startDate, setStartDate] = useState(

@@ -10,7 +10,7 @@ const emailRegistro = async (datos) => {
     },
   });
 
-  const { email, nombre, numCuenta, password } = datos;
+  const { email, nombre, password } = datos;
 
   //Enviar el email
   const info = await transporter.sendMail({
@@ -20,11 +20,9 @@ const emailRegistro = async (datos) => {
     text: "Cuenta creada correctamente",
     html: `<p> Hola: ${nombre}, estos son los datos de tu cuenta.</p>
            <p> Tu cuenta ya esta lista:</p>
-           <p> Usuario: <b>${numCuenta}</b></p>
+           <p> Usuario: <b>${email}</b></p>
            <p> Contraseña: <b>${password}</b></p>
-           <p><i>Esta contraseña es temporal<i></b></p>
-
-           <p>Si no reconoces esta institucion, ignora este correo</p>
+           <p><i>No compartas esta contraseña<i></b></p>
     `,
   });
 

@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
-import { HiMenu } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { HiMenu } from "react-icons/hi";
+import { useParams } from "react-router-dom";
+
 import { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { maestrosGrupo, alumnosGrupo, setAuth } from "../store/Slices/Maestros";
@@ -12,9 +12,8 @@ import {
   setObtenerAlumnos,
 } from "../store/Slices/Maestros";
 
-import TablaAlumnos from "../components/TablaAlumnos";
-
-const SalonDeClases = () => {
+import TablaAlumnosComun from "../components/TablaAlumnosComun";
+const AlumnosComun = () => {
   const { auth } = useAuth();
   //UseParams
   const params = useParams();
@@ -49,7 +48,6 @@ const SalonDeClases = () => {
     });
     dispatch(setAuth(auth));
   }, [dispatch]);
-
   return (
     <>
       <nav className=" bg-green-700  pt-3 ">
@@ -81,11 +79,14 @@ const SalonDeClases = () => {
           </div>
 
           <div className="flex justify-center bg-white ">
-            <button className="flex  border-b-4  border-transparent justify-center hover:border-b-5 hover:border-b-green-700 border-b-green-700 py-2">
-              <div className="font-semibold text-xl px-4 tracking-tight text-green-800">
+            <Link
+              className="flex  border-b-4 justify-center border-transparent hover:border-b-green-600  py-2"
+              to={`../${grupo}/alumnos`}
+            >
+              <div className="font-semibold text-xl px-4 tracking-tight  text-green-600">
                 Alumnos
               </div>
-            </button>
+            </Link>
             <div>
               <Link
                 className="flex  border-b-4 justify-center border-transparent hover:border-b-green-600  py-2"
@@ -98,11 +99,8 @@ const SalonDeClases = () => {
             </div>
 
             <div>
-              <Link
-                className="flex  border-b-4 justify-center border-transparent hover:border-b-green-600  py-2"
-                to={`../${grupo}/alumnosComun`}
-              >
-                <div className="font-semibold text-xl px-4 tracking-tight  text-green-600">
+              <Link className="flex  border-b-4 justify-center border-transparent hover:border-b-green-600 border-b-green-700   py-2">
+                <div className="font-semibold text-xl px-4 tracking-tight  text-green-800">
                   Alumnos en Comun
                 </div>
               </Link>
@@ -112,12 +110,10 @@ const SalonDeClases = () => {
       </nav>
 
       <div className="flex justify-center items-center">
-        <div className="w-screen ">
-          <TablaAlumnos alumnos={redux.alumnos} grupo={grupo} />
-        </div>
+        <TablaAlumnosComun grupo={grupo} />
       </div>
     </>
   );
 };
 
-export default SalonDeClases;
+export default AlumnosComun;

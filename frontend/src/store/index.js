@@ -1,8 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import clasesReducer from "./Slices/Clases";
+import adminReducer from "./Slices/Admin";
+import maestroReducer from "./Slices/Maestros";
+import alumnosReducer from "./Slices/Alumnos";
 
 export default configureStore({
   reducer: {
-    clases: clasesReducer,
+    admin: adminReducer,
+    maestro: maestroReducer,
+    alumnos: alumnosReducer,
   },
 });

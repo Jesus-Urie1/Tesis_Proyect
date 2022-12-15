@@ -1,14 +1,16 @@
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 //Redux
-import { nuevaActitud } from "../store/Slices/Clases";
-import { setNuevaActitud } from "../store/Slices/Clases";
+import { nuevaConducta, setAuth } from "../store/Slices/Maestros";
 import { useDispatch } from "react-redux";
 
 const NuevaActitud = ({ grupo, onClose }) => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [tipo, setTipo] = useState("");
+
+  const { auth } = useAuth();
 
   const dispatch = useDispatch();
 
@@ -17,8 +19,8 @@ const NuevaActitud = ({ grupo, onClose }) => {
 
     //Se publica la nuevaActitud
     const response = dispatch(
-      nuevaActitud({
-        grupo,
+      nuevaConducta({
+        email: auth.email,
         tipo,
         titulo,
         descripcion,
@@ -28,7 +30,8 @@ const NuevaActitud = ({ grupo, onClose }) => {
     response.then((r) => {
       if (r.response.status === 200) {
         //Se hace push a la store
-        dispatch(setNuevaActitud(r.response.data));
+
+        dispatch(setAuth(r.response.data));
       }
     });
 
@@ -39,11 +42,9 @@ const NuevaActitud = ({ grupo, onClose }) => {
       <form className="w-full max-w-lg p-10" onSubmit={handleSubmit}>
         <div className="grid place-items-center">
           <div className=" text-2xl mb-5 font-bold">
-            <h1>Nueva Actitud</h1>
+            <h1>Nueva Conducta</h1>
           </div>
-          <div className=" text-1xl mb-5">
-            <h1>Tipo de actitud:</h1>
-          </div>
+
           <div
             className="flex justify-around items-center mb-5"
             onChange={(e) => {
@@ -51,37 +52,37 @@ const NuevaActitud = ({ grupo, onClose }) => {
             }}
           >
             <div className="flex mr-5">
-              <label className="text-sm text-red-700 font-bold">
+              <label className="text-xl text-red-700 font-bold">
                 Negativa
                 <input
                   required
                   className="ml-1 "
                   type="radio"
-                  value="rojo"
+                  value="red"
                   name={"color"}
                 />
               </label>
             </div>
             <div className="flex mr-5">
-              <label className="text-sm text-yellow-700 font-bold">
-                Regular
+              <label className="text-xl text-cyan-700 font-bold">
+                Discapacidad
                 <input
                   required
                   className="ml-1 "
                   type="radio"
-                  value="amarillo"
+                  value="blue"
                   name={"color"}
                 />
               </label>
             </div>
             <div className="flex mr-5">
-              <label className="text-sm text-green-700 font-bold">
+              <label className="text-xl text-green-700 font-bold">
                 Positiva
                 <input
                   required
                   className="ml-1 "
                   type="radio"
-                  value="verde"
+                  value="green"
                   name={"color"}
                 />
               </label>

@@ -8,12 +8,12 @@ import {
   obtenerMaestros,
   obtenerAlumnos,
   obtenerGrupos,
-} from "../store/Slices/Clases";
+} from "../store/Slices/Admin";
 import {
   setObtenerMaestros,
   setObtenerAlumnos,
   setObtenerGrupos,
-} from "../store/Slices/Clases";
+} from "../store/Slices/Admin";
 
 const HomeAdminLayout = () => {
   const { auth, cargando } = useAuth();
@@ -28,8 +28,6 @@ const HomeAdminLayout = () => {
       if (r.response.status === 200) {
         //Se hace push a la store
         dispatch(setObtenerMaestros(r.response.data));
-      } else {
-        dispatch(setObtenerMaestros(r.response.data.msg));
       }
     });
 
@@ -41,8 +39,6 @@ const HomeAdminLayout = () => {
       if (r.response.status === 200) {
         //Se hace push a la store
         dispatch(setObtenerAlumnos(r.response.data));
-      } else {
-        dispatch(setObtenerAlumnos(r.response.data.msg));
       }
     });
 
@@ -54,8 +50,6 @@ const HomeAdminLayout = () => {
       if (r.response.status === 200) {
         //Se hace push a la store
         dispatch(setObtenerGrupos(r.response.data));
-      } else {
-        dispatch(setObtenerGrupos(r.response.data.msg));
       }
     });
   }, [dispatch]);

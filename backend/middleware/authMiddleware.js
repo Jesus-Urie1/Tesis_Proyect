@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import Administracion from "../models/Administracion.js";
-import Estudiante from "../models/Estudiante.js";
+import Alumno from "../models/Alumno.js";
 import Maestro from "../models/Maestro.js";
 
 const checkAuth = async (req, res, next) => {
@@ -24,7 +24,7 @@ const checkAuth = async (req, res, next) => {
         "-password -token"
       );
 
-      const estudiante = await Estudiante.findById(decoded.id).select(
+      const alumno = await Alumno.findById(decoded.id).select(
         "-password -token"
       );
 
@@ -36,8 +36,8 @@ const checkAuth = async (req, res, next) => {
         req.usuario = maestro;
       }
 
-      if (estudiante) {
-        req.usuario = estudiante;
+      if (alumno) {
+        req.usuario = alumno;
       }
 
       if (!req.usuario) {

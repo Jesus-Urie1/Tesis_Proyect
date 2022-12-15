@@ -1,21 +1,53 @@
 import jwt from "jsonwebtoken";
-import Maestro from "../models/Maestro.js";
 import Grupo from "../models/Grupo.js";
 import moment from "moment";
-import Estudiante from "../models/Estudiante.js";
+import Maestro from "../models/Maestro.js";
+import Alumno from "../models/Alumno.js";
 
-//Proporcionar informacion de la grupo
-const infoClase = async (req, res) => {
-  const { grupo } = req.params;
+//Entrar a una nueva grupo de parte del Maestro
+const entrarGrupo = async (req, res) => {
+  const { grupo } = req.body;
+  let token;
 
   //Obteniendo la grupo actual
-  const grupoObtenido = await Grupo.findOne({ grupo });
+  const grupoEncontrado = await Grupo.findOne({ grupo });
 
-  res.json(grupoObtenido);
+  //Verificar que exista la grupo
+  if (!grupoEncontrado) {
+    const error = new Error("No se encontró el grupo");
+    return res.status(400).json({ msg: error.message });
+  }
+
+  //Token del auth
+  token = req.headers.authorization.split(" ")[1];
+  //Obtener id del Maestro
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  //Obteniendo Maestro actual
+  const maestroActual = await Maestro.findById(decoded.id);
+  const email = maestroActual.email;
+  //Verificar si ya existe el Maestro
+  const existeMaestro = grupoEncontrado.maestros.filter((maestro) => {
+    if (maestro == email) {
+      const error = new Error("Ya estas dentro del grupo");
+      return res.status(400).json({ msg: error.message });
+    }
+  });
+
+  if (existeMaestro.length === 0) {
+    try {
+      //Guardado el array en la DB
+      grupoEncontrado.maestros.push(email);
+      const grupoActual = await grupoEncontrado.save();
+
+      return res.json(grupoActual);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
 
 //Obtener la informacion de las grupos donde este dentro el maestro
-const obtenerClases = async (req, res) => {
+const obtenerGrupos = async (req, res) => {
   //Token Auth
   let token = req.headers.authorization.split(" ")[1];
   //Obteniendo ID del maestro
@@ -24,16 +56,48 @@ const obtenerClases = async (req, res) => {
   const maestro = await Maestro.findById(decoded.id);
 
   const grupos = await Grupo.find({
-    "maestros.numCuenta": maestro.numCuenta,
+    maestros: maestro.email,
   }).select(" -__v");
 
   if (grupos.length === 0) {
     const error = new Error("En este momento no cuentas con grupos!");
     return res.status(400).json({ msg: error.message });
   }
-  res.json(grupos);
+
+  return res.json(grupos);
 };
 
+//Obtener la informacion de las grupos donde este dentro el maestro
+const maestrosGrupo = async (req, res) => {
+  const { grupo } = req.body;
+  let maestrosGrupo = [];
+  const grupoActual = await Grupo.findOne({ grupo });
+
+  await Promise.all(
+    grupoActual.maestros.map(async (email) => {
+      const maestro = await Maestro.find({ email });
+
+      maestrosGrupo.push(maestro[0]);
+    })
+  );
+  return res.json(maestrosGrupo);
+};
+
+//Obtener la informacion de las grupos donde este dentro el maestro
+const alumnosGrupo = async (req, res) => {
+  const { grupo } = req.body;
+  let alumnosGrupo = [];
+  const grupoActual = await Grupo.findOne({ grupo });
+
+  await Promise.all(
+    grupoActual.alumnos.map(async (email) => {
+      const alumno = await Alumno.find({ email });
+
+      alumnosGrupo.push(alumno[0]);
+    })
+  );
+  return res.json(alumnosGrupo);
+};
 //Publicar un nuevo anuncio de parte del Maestro
 const nuevoAnuncio = async (req, res) => {
   const { codigo, anuncio } = req.body;
@@ -59,7 +123,7 @@ const nuevoAnuncio = async (req, res) => {
       "-_id -password -token -confirmado -tipoCuenta -__v"
     );
 
-    //Objeto estudiante
+    //Objeto Maestro
     const nuevoAnuncio = {
       id: Date.now(),
       anuncio,
@@ -67,7 +131,7 @@ const nuevoAnuncio = async (req, res) => {
       de: maestro.nombre,
     };
 
-    //Nuevo array de estudiantes
+    //Nuevo array de Maestros
     const nuevosAnuncios = [...grupo.anuncios, nuevoAnuncio];
 
     //Guardado el array en la DB
@@ -137,104 +201,75 @@ const nuevaListaA = async (req, res) => {
   }
 };
 
-//Publicar una nueva actitud de parte del Maestro
-const nuevaActitud = async (req, res) => {
-  const { tipo, titulo, descripcion, grupo } = req.body;
-  let token;
+//Publicar una nueva conducta de parte del Maestro
+const nuevaConducta = async (req, res) => {
+  const { tipo, titulo, descripcion, email } = req.body;
 
   //Obteniendo la grupo actual
-  const grupoEncontrado = await Grupo.findOne({ grupo });
-
-  //Token Auth
-  token = req.headers.authorization.split(" ")[1];
-  //Obteniendo ID del maestro
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-  //Obteniendo maestro actual
-  const maestro = await Maestro.findById(decoded.id);
-
-  //Verificar que exista la grupo
-  if (!grupoEncontrado) {
-    const error = new Error("No se encontró el grupo");
-    return res.status(400).json({ msg: error.message });
-  }
+  const maestro = await Maestro.findOne({ email });
 
   try {
     //Objeto actitud
-    const nuevaActitud = {
+    const nuevaConducta = {
       tipo,
       titulo,
       descripcion,
     };
 
-    //Nuevo array de lista
-    const nuevasActitudes = [...maestro.actitudes, nuevaActitud];
-
     //Guardado el array en la DB de maestros
-    maestro.actitudes = nuevasActitudes;
+    maestro.conductas.push(nuevaConducta);
 
-    await maestro.save();
+    const nuevoAuth = await maestro.save();
 
-    //Obteniendo maestros
-    const maestros = await Maestro.find().select(
-      " -password -token -confirmado -tipoCuenta -__v"
-    );
-
-    //Guardado el array en la DB del grupo
-    grupoEncontrado.maestros = maestros;
-
-    await grupoEncontrado.save();
-
-    const grupos = await Grupo.find();
-
-    res.json(grupos);
+    return res.json(nuevoAuth);
   } catch (error) {
     console.log(error);
   }
 };
 
-//Agregar la actitud al alumno
-const agregarActitud = async (req, res) => {
-  const { tipo, titulo, descripcion, numCuenta } = req.body;
-  let token;
+//Agregar conducta a un alumno
+const agregarConductaAlumno = async (req, res) => {
+  const { tipo, titulo, descripcion, email, emailMaestro } = req.body;
 
-  //Obteniendo el alumno
-  const alumno = await Estudiante.findOne({ numCuenta });
+  //Obteniendo al alumno
+  const alumno = await Alumno.findOne({ email });
 
-  //Verificar que exista la grupo
+  //Verificar que existe el alumno
   if (!alumno) {
-    const error = new Error("No se al alumno");
+    const error = new Error("No se encontro al alumno");
     return res.status(400).json({ msg: error.message });
   }
 
   try {
-    //Objeto actitud
-    const nuevaActitud = {
+    //Objeto conducta
+    const nuevaConducta = {
+      maestro: emailMaestro,
       tipo,
       titulo,
       descripcion,
+      fecha: moment().format("L"),
     };
 
-    //Nuevo array de actitudes
-    const nuevasActitudes = [...alumno.actitudes, nuevaActitud];
+    const nuevasConductas = [...alumno.conductas, nuevaConducta];
 
     //Guardado el array en la DB
-    alumno.actitudes = nuevasActitudes;
-    await alumno.save();
+    alumno.conductas = nuevasConductas;
 
-    const alumnos = await Estudiante.find();
+    const nuevaConductaAlumno = await alumno.save();
 
-    res.json(alumnos);
+    return res.json(nuevaConductaAlumno);
   } catch (error) {
     console.log(error);
   }
 };
 
 export {
-  infoClase,
-  obtenerClases,
+  obtenerGrupos,
   nuevoAnuncio,
   nuevaListaA,
-  nuevaActitud,
-  agregarActitud,
+  nuevaConducta,
+  agregarConductaAlumno,
+  entrarGrupo,
+  maestrosGrupo,
+  alumnosGrupo,
 };

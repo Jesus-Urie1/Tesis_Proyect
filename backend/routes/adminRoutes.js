@@ -1,7 +1,6 @@
 import express from "express";
 import {
-  nuevoGrupo,
-  registrar,
+  registrarMaestro,
   obtenerMaestros,
   obtenerAlumnos,
   obtenerGrupos,
@@ -10,10 +9,9 @@ import adminAuth from "../middleware/adminAuthMiddleware.js";
 
 const router = express.Router();
 
-router.post("/nuevoGrupo", adminAuth, nuevoGrupo);
-router.post("/registrar", adminAuth, registrar);
-router.get("/obtenerMaestros", obtenerMaestros);
-router.get("/obtenerAlumnos", obtenerAlumnos);
-router.get("/obtenerGrupos", obtenerGrupos);
+router.post("/registrarMaestro", adminAuth, registrarMaestro);
+router.get("/obtenerMaestros", adminAuth, obtenerMaestros);
+router.get("/obtenerAlumnos", adminAuth, obtenerAlumnos);
+router.get("/obtenerGrupos", adminAuth, obtenerGrupos);
 
 export default router;
