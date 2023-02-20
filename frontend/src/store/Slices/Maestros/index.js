@@ -60,73 +60,134 @@ export const {
   setObtenerGrupos,
 } = maestroSlice.actions;
 
-export const registrar = (body) => async () => {
+export const registrar = (body, token) => async () => {
   const url = "/maestro/registrar";
-  const response = await clientesAxios.post(url, body).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const nuevoGrupo = (body) => async () => {
+export const nuevoGrupo = (body, token) => async () => {
   const url = "/maestro/nuevoGrupo";
-  const response = await clientesAxios.post(url, body).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const entrarGrupo = (body) => async () => {
+export const entrarGrupo = (body, token) => async () => {
   const url = "/maestro/entrarGrupo";
-  const response = await clientesAxios.post(url, body).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const agregarConductaAlumno = (body) => async () => {
+export const agregarConductaAlumno = (body, token) => async () => {
   const url = "/maestro/agregarConductaAlumno";
-  const response = await clientesAxios.post(url, body).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const nuevaConducta = (body) => async () => {
+export const nuevaConducta = (body, token) => async () => {
   const url = "/maestro/nuevaConducta";
-  const response = await clientesAxios.post(url, body).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const nuevaListaA = () => async () => {
+export const nuevaListaA = (token) => async () => {
   const url = "/maestro/nuevaListaA";
-  const response = await clientesAxios.post(url).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const maestrosGrupo = (body) => async () => {
+export const maestrosGrupo = (body, token) => async () => {
   const url = "/maestro/maestrosGrupo";
-  const response = await clientesAxios.post(url, body).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const alumnosGrupo = (body) => async () => {
+export const alumnosGrupo = (body, token) => async () => {
   const url = "/maestro/alumnosGrupo";
-  const response = await clientesAxios.post(url, body).catch((e) => {
-    return e.response;
-  });
+  const response = await clientesAxios
+    .post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((e) => {
+      return e.response;
+    });
   return { response };
 };
 
-export const obtenerGrupos = () => async () => {
+export const obtenerGrupos = (token) => async () => {
   const url = "/maestro/obtenerGrupos";
-  const response = await clientesAxios(url).catch((e) => {
+  const response = await clientesAxios(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch((e) => {
     return e.response;
   });
   return { response };

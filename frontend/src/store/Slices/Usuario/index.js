@@ -1,14 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import clientesAxios from "../../../config/axios";
 
-const adminSlice = createSlice({
-  name: "gruposAdmin",
+const usuarioSlice = createSlice({
+  name: "usuario",
   initialState: {
+    auth: [],
     maestros: [],
     alumnos: [],
     grupos: [],
   },
   reducers: {
+    setAuth: (state, action) => {
+      state.auth = action.payload;
+    },
     setObtenerMaestros: (state, action) => {
       state.maestros = action.payload;
     },
@@ -18,54 +22,34 @@ const adminSlice = createSlice({
     setObtenerGrupos: (state, action) => {
       state.grupos = action.payload;
     },
-    setNuevoGrupo: (state, action) => {
-      state.grupos = [...state.grupos, action.payload];
-    },
-    setRegistrarMaestros: (state, action) => {
-      state.maestros = action.payload;
-    },
-    setRegistrarAlumno: (state, action) => {
-      state.alumnos = action.payload;
-    },
   },
 });
 
 export const {
-  setNuevoGrupo,
+  setAuth,
   setObtenerMaestros,
   setObtenerAlumnos,
-  setRegistrarMaestros,
-  setRegistrarAlumno,
   setObtenerGrupos,
-} = adminSlice.actions;
+} = usuarioSlice.actions;
 
-export const registrarMaestro = (body, token) => async () => {
-  const url = "/admin/registrarMaestro";
-  const response = await clientesAxios
-    .post(url, body, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .catch((e) => {
-      return e.response;
-    });
+export const auth = (body) => async () => {
+  const url = "/login";
+  const response = await clientesAxios.post(url, body).catch((e) => {
+    return e.response;
+  });
   return { response };
 };
 
-export const nuevoGrupo = (body, token) => async () => {
-  const url = "/nuevoGrupo";
-  const response = await clientesAxios
-    .post(url, body, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .catch((e) => {
-      return e.response;
-    });
+export const obtenerPerfil = (token) => async () => {
+  const url = "/perfil";
+  const response = await clientesAxios(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch((e) => {
+    return e.response;
+  });
   return { response };
 };
 
@@ -107,5 +91,4 @@ export const obtenerGrupos = (token) => async () => {
   });
   return { response };
 };
-
-export default adminSlice.reducer;
+export default usuarioSlice.reducer;
