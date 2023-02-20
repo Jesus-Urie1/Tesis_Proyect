@@ -14,7 +14,7 @@ import { setRegistrarMaestros } from "../store/Slices/Admin";
 const NuevoMaestro = ({ onClose }) => {
   const [maestros, setMaestros] = useState([]);
   const [maestrosRegistrados, setMaestroRegistrado] = useState(false);
-
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
@@ -50,9 +50,12 @@ const NuevoMaestro = ({ onClose }) => {
     e.preventDefault();
 
     const response = dispatch(
-      registrarMaestro({
-        maestros,
-      })
+      registrarMaestro(
+        {
+          maestros,
+        },
+        token
+      )
     );
     response.then((r) => {
       if (r.response.status === 200) {
@@ -115,7 +118,12 @@ const NuevoMaestro = ({ onClose }) => {
           )}
 
           <button
-            className="bg-green-800 w-full py-2 rounded text-white font-bold hover:bg-green-700 peer-checked:bg-gray-200"
+            className={
+              (maestros.length === 0 || maestrosRegistrados
+                ? "bg-gray-500 cursor-not-allowed disabled"
+                : "bg-green-800 hover:bg-green-700") +
+              ` w-full py-2 rounded text-white font-bold`
+            }
             type="submit"
           >
             Registrar

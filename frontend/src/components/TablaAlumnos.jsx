@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FormActitudes from "./FormActitudes";
+import FormActitudes from "./Maestro/FormActitudes";
 import Tabla from "./Tabla";
 
 const TablaAlumnos = ({ alumnos, grupo }) => {

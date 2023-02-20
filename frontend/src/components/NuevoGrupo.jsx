@@ -16,7 +16,7 @@ const NuevoGrupo = ({ onClose }) => {
   const [grupo, setGrupo] = useState("");
   const [alumnosRegistrados, setAlumnosRegistrados] = useState(false);
   const [grupoRegistrado, setGrupoRegistrado] = useState(false);
-
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
@@ -54,15 +54,18 @@ const NuevoGrupo = ({ onClose }) => {
     e.preventDefault();
 
     const response = dispatch(
-      nuevoGrupo({
-        grupo,
-        alumnos,
-      })
+      nuevoGrupo(
+        {
+          grupo,
+          alumnos,
+        },
+        token
+      )
     );
     response.then((r) => {
       if (r.response.status === 200) {
         //Se hace push a la store
-        console.log(r);
+
         dispatch(setNuevoGrupo(r.response.data.grupo));
         dispatch(setNuevoGrupos(r.response.data.grupo));
         dispatch(setRegistrarAlumno(r.response.data.alumnos));
@@ -143,7 +146,12 @@ const NuevoGrupo = ({ onClose }) => {
             </div>
           )}
           <button
-            className="bg-green-800 w-full py-2 rounded text-white font-bold hover:bg-green-700 peer-checked:bg-gray-200"
+            className={
+              (alumnos.length === 0 || alumnosRegistrados
+                ? "bg-gray-500 cursor-not-allowed disabled"
+                : "bg-green-800 hover:bg-green-700") +
+              ` w-full py-2 rounded text-white font-bold`
+            }
             type="submit"
           >
             Registrar

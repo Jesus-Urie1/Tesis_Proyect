@@ -7,42 +7,39 @@ import HomeAdminLayout from "./layout/HomeAdminLayout";
 //Pages
 import Login from "./pages/Login";
 import HomeEstudiante from "./pages/HomeEstudiante";
-import HomeMaestro from "./pages/HomeMaestro";
-import Alumnos from "./pages/Alumnos";
-import ListadeAsistencia from "./pages/ListadeAsistencia";
+import HomeMaestro from "./pages/Maestro/HomeMaestro";
+import Alumnos from "./pages/Maestro/Alumnos";
+import ListadeAsistencia from "./pages/Maestro/ListadeAsistencia";
 import HomeAdmin from "./pages/HomeAdmin";
-import AlumnosComun from "./pages/AlumnosComun";
-
-import { AuthProvider } from "./context/AuthProvider";
+import AlumnosComun from "./pages/Maestro/AlumnosComun";
+import Informes from "./pages/Maestro/Informes";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<AuthLayout />}>
-            <Route index element={<Login />} />
-          </Route>
-
-          <Route path="/administracion" element={<HomeAdminLayout />}>
-            <Route index element={<HomeAdmin />} />
-          </Route>
-
-          <Route path="/maestro" element={<HomeMaestroLayout />}>
-            <Route index element={<HomeMaestro />} />
-            <Route path=":grupo/alumnos" element={<Alumnos />} />
-            <Route
-              path=":grupo/listadeasistencia"
-              element={<ListadeAsistencia />}
-            />
-            <Route path=":grupo/alumnosComun" element={<AlumnosComun />} />
-          </Route>
-
+      <Routes>
+        {/*Route publica (Login)*/}
+        <Route path="/" element={<Login />} />
+        {/*Route del usuario administrador*/}
+        <Route path="/administracion" element={<HomeAdminLayout />}>
+          <Route index element={<HomeAdmin />} />
+        </Route>
+        {/* Route del usuario maestro */}
+        <Route path="/maestro" element={<HomeMaestroLayout />}>
+          <Route index element={<HomeMaestro />} />
+          <Route path=":grupo/alumnos" element={<Alumnos />} />
+          <Route
+            path=":grupo/listadeasistencia"
+            element={<ListadeAsistencia />}
+          />
+          <Route path=":grupo/alumnosComun" element={<AlumnosComun />} />
+          <Route path=":grupo/informes" element={<Informes />} />
+        </Route>
+        {/* Route del usuario alumno
           <Route path="/alumno" element={<HomeEstudianteLayout />}>
             <Route index element={<HomeEstudiante />} />
-          </Route>
-        </Routes>
-      </AuthProvider>
+          </Route> */}
+      </Routes>
     </BrowserRouter>
   );
 };

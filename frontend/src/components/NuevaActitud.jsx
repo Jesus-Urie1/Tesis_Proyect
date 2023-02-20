@@ -13,18 +13,21 @@ const NuevaActitud = ({ grupo, onClose }) => {
   const { auth } = useAuth();
 
   const dispatch = useDispatch();
-
+  const token = localStorage.getItem("token");
   const handleSubmit = (e) => {
     e.preventDefault();
 
     //Se publica la nuevaActitud
     const response = dispatch(
-      nuevaConducta({
-        email: auth.email,
-        tipo,
-        titulo,
-        descripcion,
-      })
+      nuevaConducta(
+        {
+          email: auth.email,
+          tipo,
+          titulo,
+          descripcion,
+        },
+        token
+      )
     );
 
     response.then((r) => {

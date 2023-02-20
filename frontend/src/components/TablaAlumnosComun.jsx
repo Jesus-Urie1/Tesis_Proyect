@@ -79,11 +79,7 @@ const TablaAlumnosComun = ({ grupo }) => {
                                     className=" px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-red-800 to-red-500 rounded-lg"
                                     disabled
                                   >
-                                    <span
-                                      data1-title={conducta.descripcion}
-                                      className="hover:before:content-[attr(data1-title)] before:bg-gradient-to-r from-red-800 to-red-500  before:absolute before:-mt-10
-                                      before:p-2 before:rounded before:invisible hover:before:visible"
-                                    >
+                                    <span title={conducta.descripcion}>
                                       {conducta.titulo}
                                     </span>
                                   </button>
@@ -102,11 +98,7 @@ const TablaAlumnosComun = ({ grupo }) => {
                                     className="px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-green-700 to-lime-600 rounded-lg"
                                     disabled
                                   >
-                                    <span
-                                      data2-title={conducta.descripcion}
-                                      className="hover:before:content-[attr(data2-title)] before:absolute  before:bg-gradient-to-r from-green-700 to-lime-600 before:-mt-10
-                              before:p-2 before:rounded before:invisible hover:before:visible"
-                                    >
+                                    <span title={conducta.descripcion}>
                                       {conducta.titulo}
                                     </span>
                                   </button>
@@ -124,11 +116,7 @@ const TablaAlumnosComun = ({ grupo }) => {
                                     className="  px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-blue-700 to-cyan-700 rounded-lg"
                                     disabled
                                   >
-                                    <span
-                                      data3-title={conducta.descripcion}
-                                      className="hover:before:content-[attr(data3-title)] before:absolute  before:bg-gradient-to-r from-blue-700 to-cyan-700 before:-mt-10 
-                              before:p-2 before:rounded before:invisible hover:before:visible"
-                                    >
+                                    <span title={conducta.descripcion}>
                                       {conducta.titulo}
                                     </span>
                                   </button>
@@ -154,11 +142,7 @@ const TablaAlumnosComun = ({ grupo }) => {
                                   className=" px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-red-800 to-red-500 rounded-lg"
                                   disabled
                                 >
-                                  <span
-                                    data1-title={conducta.descripcion}
-                                    className="hover:before:content-[attr(data1-title)] before:bg-gradient-to-r from-red-800 to-red-500  before:absolute before:-mt-10
-                                      before:p-2 before:rounded before:invisible hover:before:visible"
-                                  >
+                                  <span title={conducta.descripcion}>
                                     {conducta.titulo}
                                   </span>
                                 </button>
@@ -177,11 +161,7 @@ const TablaAlumnosComun = ({ grupo }) => {
                                   className="px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-green-700 to-lime-600 rounded-lg"
                                   disabled
                                 >
-                                  <span
-                                    data2-title={conducta.descripcion}
-                                    className="hover:before:content-[attr(data2-title)] before:absolute  before:bg-gradient-to-r from-green-700 to-lime-600 before:-mt-10
-                              before:p-2 before:rounded before:invisible hover:before:visible"
-                                  >
+                                  <span title={conducta.descripcion}>
                                     {conducta.titulo}
                                   </span>
                                 </button>
@@ -199,11 +179,7 @@ const TablaAlumnosComun = ({ grupo }) => {
                                   className="  px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-blue-700 to-cyan-700 rounded-lg"
                                   disabled
                                 >
-                                  <span
-                                    data3-title={conducta.descripcion}
-                                    className="hover:before:content-[attr(data3-title)] before:absolute  before:bg-gradient-to-r from-blue-700 to-cyan-700 before:-mt-10 
-                              before:p-2 before:rounded before:invisible hover:before:visible"
-                                  >
+                                  <span title={conducta.descripcion}>
                                     {conducta.titulo}
                                   </span>
                                 </button>

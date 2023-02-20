@@ -9,7 +9,7 @@ const Modal = ({ isVisible, onClose, children }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+      className="fixed z-20 inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
       id="wrapper"
       onClick={handleClose}
     >
@@ -20,7 +20,7 @@ const Modal = ({ isVisible, onClose, children }) => {
         >
           X
         </button>
-        <div className="bg-white rounded"> {children}</div>
+        <div className="bg-white rounded "> {children}</div>
       </div>
     </div>
   );

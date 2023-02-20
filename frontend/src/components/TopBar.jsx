@@ -1,11 +1,8 @@
-import { HiPlus, HiMenu } from "react-icons/hi";
-import useAuth from "../hooks/useAuth";
+import { HiPlus } from "react-icons/hi";
 
 const TopBar = ({ setShowClassModal }) => {
-  const { auth } = useAuth();
-
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-green-800 p-3">
+    <nav className="flex w-full h-20 items-center justify-between flex-wrap bg-green-800 p-3">
       <div className="flex">
         <img src="logo-nav.png" />
       </div>

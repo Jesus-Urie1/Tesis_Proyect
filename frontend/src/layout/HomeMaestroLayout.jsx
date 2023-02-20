@@ -1,37 +1,36 @@
 import { Outlet, Navigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 //Redux
+import { obtenerGrupos } from "../store/Slices/Maestros";
 import {
+  obtenerPerfil,
   setAuth,
-  obtenerGrupos,
   setObtenerGrupos,
-} from "../store/Slices/Maestros";
-import { useDispatch } from "react-redux";
+} from "../store/Slices/Usuario";
+import { useDispatch, useSelector } from "react-redux";
+import { authMaestro } from "../Utils/authMaestro";
 
 const HomeMaestroLayout = () => {
-  const { auth, cargando } = useAuth();
-
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const usuario = useSelector((state) => state.usuario);
 
   useEffect(() => {
-    //Se obtienen las clases
-    const response = dispatch(obtenerGrupos());
+    authMaestro(
+      dispatch,
+      obtenerPerfil,
+      obtenerGrupos,
+      setAuth,
+      setObtenerGrupos,
+      token
+    );
+  }, []);
 
-    //Se obtiene respuesta
-    response.then((r) => {
-      if (r.response.status === 200) {
-        //Se hace push a la store
-        dispatch(setObtenerGrupos(r.response.data));
-      }
-    });
-  }, [dispatch]);
-
-  if (cargando) return "Cargando...";
+  if (usuario.auth.length === 0) return "Cargando...";
 
   return (
     <>
-      {auth?._id && auth?.tipoCuenta == "maestro" ? (
+      {usuario.auth._id && usuario.auth.tipoCuenta == "maestro" ? (
         <main>
           <Outlet />
         </main>

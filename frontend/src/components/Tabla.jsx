@@ -8,22 +8,14 @@ import { useSelector } from "react-redux";
 const Tabla = ({ setAlumnoSeleccionado }) => {
   const [alumnos, setAlumnos] = useState([]);
   const redux = useSelector((state) => state.maestro);
+  useEffect(() => {
+    if (redux.alumnos.length !== 0) {
+      const values = [...redux.alumnos];
+      values.sort((a, b) => a.nombre.localeCompare(b.nombre));
 
-  const SortArray = (x, y) => {
-    if (x.nombre < y.nombre) {
-      return -1;
+      setAlumnos(values);
     }
-    if (x.nombre > y.nombre) {
-      return 1;
-    }
-    return 0;
-  };
-
-  // if (redux.alumnos.length !== 0 && alumnos.length === 0) {
-  //   const alumnosOrdenados = [...redux.alumnos].sort(SortArray);
-
-  //   setAlumnos(alumnosOrdenados);
-  // }
+  }, [redux.alumnos]);
 
   return (
     <form>
@@ -31,18 +23,20 @@ const Tabla = ({ setAlumnoSeleccionado }) => {
         <table className="w-full leading-normal  ">
           <thead className="bg-gradient-to-r from-green-700 to-lime-600 ">
             {/*Columnas del alumno */}
+            <tr>
+              <th className="w-1/3 p-2 rounded-l text-center text-sm font-semibold text-white uppercase tracking-wider">
+                Alumno
+              </th>
 
-            <th className="w-1/3 p-2 rounded-l text-center text-sm font-semibold text-white uppercase tracking-wider">
-              Alumno
-            </th>
-            <th className="w-2/3 rounded-r text-center text-sm font-semibold text-white uppercase tracking-wider">
-              Conductas
-            </th>
+              <th className="w-2/3 rounded-r text-center text-sm font-semibold text-white uppercase tracking-wider">
+                Conductas
+              </th>
+            </tr>
           </thead>
 
           <tbody className="">
             {redux.alumnos.length !== 0 &&
-              redux.alumnos.map((alumno) => (
+              alumnos.map((alumno) => (
                 <tr key={alumno._id}>
                   <td className=" border-b border-green-500 text-sm break-all whitespace-nowrap">
                     <p className="text-gray-900 text-center ">
@@ -53,22 +47,18 @@ const Tabla = ({ setAlumnoSeleccionado }) => {
                   {/*conductas de cada alumno */}
                   <td className="p-7 border-b border-green-500 text-sm break-all whitespace-nowrap ">
                     <div className="flex flex-wrap">
-                      {alumno.conductas.map((conducta) => {
+                      {alumno.conductas.map((conducta, index) => {
                         if (
                           conducta.tipo === "red" &&
                           conducta.maestro === redux.auth.email
                         ) {
                           return (
-                            <div className="mt-3 mr-2 ">
+                            <div className="mt-3 mr-2" key={index}>
                               <button
                                 className="px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-red-700 to-red-600 rounded-lg"
                                 disabled
                               >
-                                <span
-                                  data1-title={conducta.descripcion}
-                                  className="hover:before:content-[attr(data1-title)] before:absolute  before:bg-gradient-to-r from-red-700 to-red-600 before:-mt-10 
-                                  before:p-2 before:rounded before:invisible hover:before:visible"
-                                >
+                                <span title={conducta.descripcion}>
                                   {conducta.titulo}
                                 </span>
                               </button>
@@ -81,16 +71,12 @@ const Tabla = ({ setAlumnoSeleccionado }) => {
                           conducta.maestro === redux.auth.email
                         ) {
                           return (
-                            <div className="mt-3 mr-2 ">
+                            <div className="mt-3 mr-2 " key={index}>
                               <button
                                 className="px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-green-700 to-lime-600 rounded-lg"
                                 disabled
                               >
-                                <span
-                                  data2-title={conducta.descripcion}
-                                  className="hover:before:content-[attr(data2-title)] before:absolute  before:bg-gradient-to-r from-green-700 to-lime-600 before:-mt-10 
-                                  before:p-2 before:rounded before:invisible hover:before:visible"
-                                >
+                                <span title={conducta.descripcion}>
                                   {conducta.titulo}
                                 </span>
                               </button>
@@ -102,16 +88,12 @@ const Tabla = ({ setAlumnoSeleccionado }) => {
                           conducta.maestro === redux.auth.email
                         ) {
                           return (
-                            <div className="mt-3 mr-2">
+                            <div className="mt-3 mr-2" key={index}>
                               <button
                                 className="  px-3 py-1 font-semibold text-white leading-tight bg-gradient-to-r from-cyan-700 to-cyan-600 rounded-lg"
                                 disabled
                               >
-                                <span
-                                  data3-title={conducta.descripcion}
-                                  className="hover:before:content-[attr(data3-title)] before:absolute  before:bg-gradient-to-r from-cyan-700 to-cyan-600 before:-mt-10
-                                  before:p-2 before:rounded before:invisible hover:before:visible"
-                                >
+                                <span title={conducta.descripcion}>
                                   {conducta.titulo}
                                 </span>
                               </button>

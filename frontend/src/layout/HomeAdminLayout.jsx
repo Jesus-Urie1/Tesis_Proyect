@@ -1,64 +1,46 @@
 import { Outlet, Navigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
-
 //Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  obtenerMaestros,
-  obtenerAlumnos,
-  obtenerGrupos,
-} from "../store/Slices/Admin";
-import {
-  setObtenerMaestros,
+  obtenerPerfil,
+  setAuth,
   setObtenerAlumnos,
   setObtenerGrupos,
-} from "../store/Slices/Admin";
+  setObtenerMaestros,
+  obtenerAlumnos,
+  obtenerGrupos,
+  obtenerMaestros,
+} from "../store/Slices/Usuario";
+
+import { authUsuario } from "../Utils/authUsuario";
 
 const HomeAdminLayout = () => {
-  const { auth, cargando } = useAuth();
   const dispatch = useDispatch();
+  const usuario = useSelector((state) => state.usuario);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    //Se obtienen los maestros
-    const response = dispatch(obtenerMaestros());
+    authUsuario(
+      dispatch,
+      obtenerPerfil,
+      obtenerAlumnos,
+      obtenerGrupos,
+      obtenerMaestros,
+      setAuth,
+      setObtenerAlumnos,
+      setObtenerGrupos,
+      setObtenerMaestros,
+      token
+    );
+  }, [token]);
 
-    //Se obtiene respuesta
-    response.then((r) => {
-      if (r.response.status === 200) {
-        //Se hace push a la store
-        dispatch(setObtenerMaestros(r.response.data));
-      }
-    });
-
-    //Se obtienen las alumnos
-    const response2 = dispatch(obtenerAlumnos());
-
-    //Se obtiene respuesta
-    response2.then((r) => {
-      if (r.response.status === 200) {
-        //Se hace push a la store
-        dispatch(setObtenerAlumnos(r.response.data));
-      }
-    });
-
-    //Se obtienen las alumnos
-    const response3 = dispatch(obtenerGrupos());
-
-    //Se obtiene respuesta
-    response3.then((r) => {
-      if (r.response.status === 200) {
-        //Se hace push a la store
-        dispatch(setObtenerGrupos(r.response.data));
-      }
-    });
-  }, [dispatch]);
-
-  if (cargando) return "Cargando...";
-
+  // se muestra un componente de carga si el usuario aún no ha sido autenticado
+  if (usuario.auth.length === 0) return "Cargando...";
   return (
     <>
-      {auth?._id && auth?.tipoCuenta == "administracion" ? (
+      {/*Comprobar el tipo de usuario*/}
+      {usuario.auth.email && usuario.auth.tipoCuenta == "administracion" ? (
         <main>
           <Outlet />
         </main>
