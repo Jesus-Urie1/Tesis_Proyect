@@ -27,6 +27,8 @@ const authenticar = async (req, res) => {
         nombre: usuario.nombre,
         email: usuario.email,
         tipoCuenta: usuario.tipoCuenta,
+        listasAsistencia: usuario.listasAsistencia,
+        conductas: usuario.conductas,
         token: generarJWT(usuario.id),
       });
     } else {
